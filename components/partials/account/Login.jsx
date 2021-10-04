@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
-import { login } from '../../../store/auth/action';
-
+import { login, logOut } from '../../../store/auth/action';
+import axios from 'axios';
+import { getToken } from "components/api/url-helper";
 import { Form, Input, notification } from 'antd';
 import { connect } from 'react-redux';
+
 
 class Login extends Component {
     constructor(props) {
@@ -28,11 +30,27 @@ class Login extends Component {
         });
     }
 
-    handleLoginSubmit = e => {
-        console.log('test');
-        this.props.dispatch(login());
-        Router.push('/');
+    handleLoginSubmit = (values) => {
 
+        getToken(values).then((res) => {
+            console.log(res);
+            console.log(res.data);
+            console.log(res.data.result);
+            console.log(res.data.result.token);
+            console.log(res.data.status);
+
+            if (res.data.status === 200) {
+                this.props.dispatch(login());
+                window.localStorage.setItem("token",res.data.result.token);
+                return Router.push('/');
+
+            } 
+        }).catch((err)=>{
+            notification.warn({
+                message: ' Login is Unsuccessful',
+                description: 'This feature has been updated later!',
+            })}
+        )
     };
 
     render() {
@@ -41,7 +59,7 @@ class Login extends Component {
                 <div className="container">
                     <Form
                         className="ps-form--account"
-                        onFinish={this.handleLoginSubmit.bind(this)}>
+                        onFinish={this.handleLoginSubmit}>
                         <ul className="ps-tab-list">
                             <li className="active">
                                 <Link href="/account/login">
@@ -106,7 +124,7 @@ class Login extends Component {
                                 </div>
                                 <div className="form-group submit">
                                     <button
-                                        type="submit"
+                                        htmlType="submit"
                                         className="ps-btn ps-btn--fullwidth">
                                         Login
                                     </button>
@@ -165,6 +183,14 @@ class Login extends Component {
     }
 }
 const mapStateToProps = state => {
-    return state.auth;
+    return {
+        auth: state.auth.isLoggedIn
+    };
 };
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         auth:dispatch(login)
+//     };
+// };
+
 export default connect(mapStateToProps)(Login);

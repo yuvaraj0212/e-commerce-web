@@ -2,26 +2,45 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { login } from '../../../store/auth/action';
-
-import { Form, Input } from 'antd';
+import {registerUser} from "components/api/url-helper";
+import { Form, Input ,Button,notification} from 'antd';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class Register extends Component {
     constructor(props) {
-        super(props);
+        super(props); 
         this.state = {};
     }
-
-    handleSubmit = e => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                this.props.dispatch(login());
-                Router.push('/account/login');
-            } else {
-            }
-        });
-    };
+    // componentDidMount() {
+    //     axios.get("http://localhost:8080/user").then(res =>
+    //         console.log(res.data)
+    //     )
+    // };
+    
+    handleSubmit(values) {
+        registerUser(values)
+      .then((res) => {
+          console.log(res);
+          console.log(res.status);
+          if (res.status === 200) {
+            notification.success({
+                message:  res.data.message,
+                description: 'This feature has been updated later!',
+            });
+            return  Router.push('/account/login');
+        }else{
+            notification.warn({
+                message: err.data.message,
+                description: 'This feature has been updated later!',
+            })}
+      }).catch((err)=>{
+        notification.warn({
+            message: err.message,
+            description: 'This feature has been updated later!',
+        })}
+    )
+    }
 
     render() {
         return (
@@ -29,7 +48,7 @@ class Register extends Component {
                 <div className="container">
                     <Form
                         className="ps-form--account"
-                        onSubmit={this.handleSubmit}>
+                        onFinish={this.handleSubmit}>
                         <ul className="ps-tab-list">
                             <li>
                                 <Link href="/account/login">
@@ -48,6 +67,7 @@ class Register extends Component {
                                 <div className="form-group">
                                     <Form.Item
                                         name="email"
+                                        
                                         rules={[
                                             {
                                                 required: true,
@@ -59,12 +79,33 @@ class Register extends Component {
                                             className="form-control"
                                             type="email"
                                             placeholder="Email address"
+
+                                        />
+                                    </Form.Item>
+                                </div>
+                                <div className="form-group">
+                                    <Form.Item
+                                        name="username"
+                                        
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message:
+                                                    'Please input your UserName!',
+                                            },
+                                        ]}>
+                                        <Input
+                                            className="form-control"
+                                            type="text"
+                                            placeholder="UserName"
+
                                         />
                                     </Form.Item>
                                 </div>
                                 <div className="form-group form-forgot">
                                     <Form.Item
                                         name="password"
+                                        
                                         rules={[
                                             {
                                                 required: true,
@@ -76,19 +117,59 @@ class Register extends Component {
                                             className="form-control"
                                             type="password"
                                             placeholder="Password..."
+
+                                        />
+                                    </Form.Item>
+                                </div>
+                                <div className="form-group form-forgot">
+                                    <Form.Item
+                                        name="confirmPassword"
+                                       
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message:
+                                                    'Please input your password!',
+                                            },
+                                        ]}>
+                                        <Input
+                                            className="form-control"
+                                            type="password"
+                                            placeholder="Password..."
+
+                                        />
+                                    </Form.Item>
+                                </div>
+                                <div className="form-group form-forgot">
+                                    <Form.Item
+                                        name="phone"
+                                       
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message:
+                                                    'Please input your Mobile number!',
+                                            },
+                                        ]}>
+                                        <Input
+                                            className="form-control"
+                                            type="tel"
+                                            placeholder="Mobile number..."
+
                                         />
                                     </Form.Item>
                                 </div>
                                 <div className="form-group submit">
-                                    <button
-                                        type="submit"
-                                        className="ps-btn ps-btn--fullwidth">
-                                        Register
-                                    </button>
+                                    <Form.Item>
+                                        <Button htmlType="submit">
+                                            Submit
+                                        </Button>
+                                    </Form.Item>
                                 </div>
+                                {/* {console.log(this.state)} */}
                             </div>
                             <div className="ps-form__footer">
-                                <p>Connect with:</p>
+                                <p>Connect with: </p>
                                 <ul className="ps-list--social">
                                     <li>
                                         <a className="facebook" href="#">
@@ -114,8 +195,8 @@ class Register extends Component {
                             </div>
                         </div>
                     </Form>
-                </div>
-            </div>
+                </div >
+            </div >
         );
     }
 }

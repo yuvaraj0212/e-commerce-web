@@ -18,7 +18,7 @@ import '~/scss/organic.scss';
 import '~/scss/technology.scss';
 import '~/scss/autopart.scss';
 import '~/scss/electronic.scss';
-import{getUser} from "../Api/url-helper";
+import{getUser} from "../components/api/url-helper";
 import {login}from '../store/auth/action';
 
 function App({ Component, pageProps }) {
