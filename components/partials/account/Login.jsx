@@ -3,15 +3,17 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { login, logOut } from '../../../store/auth/action';
 import axios from 'axios';
-import { getToken } from "components/api/url-helper";
-import { Form, Input, notification } from 'antd';
+import { getToken, forgotpassword } from "components/api/url-helper";
+import { Form, Input, notification, Modal, Button } from 'antd';
 import { connect } from 'react-redux';
 
 
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            modal2Visible: false,
+        };
     }
 
     static getDerivedStateFromProps(props) {
@@ -36,24 +38,54 @@ class Login extends Component {
             console.log(res);
             console.log(res.data);
             console.log(res.data.result);
-            console.log(res.data.result.token);
+            // console.log(res.data.result.token);
             console.log(res.data.status);
 
             if (res.data.status === 200) {
                 this.props.dispatch(login());
-                window.localStorage.setItem("token",res.data.result.token);
+                sessionStorage.setItem("token", JSON.stringify(res.data.result.token));
                 return Router.push('/');
 
-            } 
-        }).catch((err)=>{
-            notification.warn({
-                message: ' Login is Unsuccessful',
-                description: 'This feature has been updated later!',
-            })}
-        )
-    };
+            } else {
+                notification.warn({
+                    message: res.data.message,
+                    description: 'This feature has been updated later!',
+                })
+            }
+        })
 
+    };
+    Visible = (modal2Visible) => {
+        this.setState({ modal2Visible });
+    }
+    forgetpassword = (value) => {
+        console.log(value);
+        try {
+            forgotpassword(value).then((res) => {
+                console.log(res);
+
+                if (res.status == 200) {
+                    notification.success({
+                        message: res.data.message
+                    });
+                } else {
+                    notification.warn({
+                        message: res.data.message
+                    });
+                }
+                this.Visible(false);
+            })
+        } catch (error) {
+            notification.error({
+                message: error
+            });
+        }
+
+    }
     render() {
+
+
+
         return (
             <div className="ps-my-account">
                 <div className="container">
@@ -109,19 +141,50 @@ class Login extends Component {
                                         />
                                     </Form.Item>
                                 </div>
-                                <div className="form-group">
-                                    <div className="ps-checkbox">
-                                        <input
-                                            className="form-control"
-                                            type="checkbox"
-                                            id="remember-me"
-                                            name="remember-me"
-                                        />
-                                        <label htmlFor="remember-me">
-                                            Rememeber me
-                                        </label>
-                                    </div>
+                                <div className="form-group text-right hover-blue">
+
+                                    <label  >
+                                        <a onClick={() => this.Visible(true)}>Forgot Your Password?</a>
+                                    </label>
+
                                 </div>
+                                <Modal
+                                    title="Forget password"
+                                    centered
+                                    visible={this.state.modal2Visible}
+                                    // onOk={this.forgetpassword}
+                                    onCancel={() => this.Visible(false)}
+                                    footer={null}
+                                >
+                                    <h5>Enter your Email Adress...!</h5>
+                                    <div className="form-group">
+                                        <Form
+                                            onFinish={this.forgetpassword}>
+                                            <Form.Item
+                                                name="emailId"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message:
+                                                            'Please input your email!',
+                                                    },
+                                                ]}>
+                                                <Input
+                                                    className="form-control"
+                                                    type="email"
+                                                    placeholder="Username or email address"
+                                                />
+                                            </Form.Item>
+                                            <div className="form-group submit">
+                                                <button
+                                                    htmlType="submit"
+                                                    className="ps-btn ps-btn--fullwidth">
+                                                    Submit
+                                                </button>
+                                            </div>
+                                        </Form>
+                                    </div>
+                                </Modal>
                                 <div className="form-group submit">
                                     <button
                                         htmlType="submit"
@@ -173,6 +236,19 @@ class Login extends Component {
                                             <i className="fa fa-instagram"></i>
                                         </a>
                                     </li>
+
+                                    <li>
+
+
+                                        <Link href="/account/resetpassword">
+                                            <a
+                                                className="instagram"
+                                            >
+                                                <i className="fa fa-twitter"></i>
+                                            </a>
+                                        </Link>
+
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -187,10 +263,6 @@ const mapStateToProps = state => {
         auth: state.auth.isLoggedIn
     };
 };
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         auth:dispatch(login)
-//     };
-// };
+
 
 export default connect(mapStateToProps)(Login);

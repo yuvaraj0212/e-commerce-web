@@ -1,8 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import Link from 'next/link';
 import FormChangeUserInformation from '~/components/shared/FormChangeUserInformation';
-
+import { getUser } from '../../api/url-helper'
+import axios from "axios";
 const UserInformation = () => {
+    const [user, setUser] = useState([]);
+    useEffect(() => {
+
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        };
+        getUser(config).then(
+            res => {
+                setUser(res.data.result);
+            }
+        )
+
+    }, [])
+    console.log(user);
     const accountLinks = [
         {
             text: 'Account Information',
@@ -50,6 +70,7 @@ const UserInformation = () => {
     ));
 
     return (
+
         <section className="ps-my-account ps-page--account">
             <div className="container">
                 <div className="row">
@@ -59,8 +80,8 @@ const UserInformation = () => {
                                 <div className="ps-widget__header">
                                     <img src="/static/img/users/3.jpg" />
                                     <figure>
-                                        <figcaption>Hello</figcaption>
-                                        <p>username@gmail.com</p>
+                                        <figcaption >Hello</figcaption>
+                                        <p>{user.username}</p>
                                     </figure>
                                 </div>
                                 <div className="ps-widget__content">
@@ -83,7 +104,7 @@ const UserInformation = () => {
                                             </li>
                                         ))}
                                         <li>
-                                            <Link href="/account/my-account">
+                                            <Link href="/">
                                                 <a>
                                                     <i className="icon-power-switch"></i>
                                                     Logout
@@ -97,7 +118,7 @@ const UserInformation = () => {
                     </div>
                     <div className="col-lg-9">
                         <div className="ps-page__content">
-                            <FormChangeUserInformation />
+                            <FormChangeUserInformation data={user} />
                         </div>
                     </div>
                 </div>

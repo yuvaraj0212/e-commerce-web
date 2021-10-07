@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { login } from '../../../store/auth/action';
-import {registerUser} from "components/api/url-helper";
-import { Form, Input ,Button,notification} from 'antd';
+import { registerUser } from "components/api/url-helper";
+import { Form, Input, Button, notification } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
 class Register extends Component {
     constructor(props) {
-        super(props); 
+        super(props);
         this.state = {};
     }
     // componentDidMount() {
@@ -17,29 +17,36 @@ class Register extends Component {
     //         console.log(res.data)
     //     )
     // };
-    
+
     handleSubmit(values) {
-        registerUser(values)
-      .then((res) => {
-          console.log(res);
-          console.log(res.status);
-          if (res.status === 200) {
-            notification.success({
-                message:  res.data.message,
-                description: 'This feature has been updated later!',
-            });
-            return  Router.push('/account/login');
-        }else{
+
+        try {
+            registerUser(values)
+                .then((res) => {
+                    console.log(res);
+                    console.log(res.status);
+                    console.log(res.data.message);
+                    if (res.status == 200) {
+                        notification.warn({
+                            // message: res.data.message,
+                            message: "res.data.message",
+                            description: 'This feature has been updated later!',
+                        });
+                        return Router.push('/account/login');
+                    } else {
+                        notification.warn({
+                            message: res.data.message,
+                            description: 'This feature has been updated later!',
+                        });
+                    }
+                })
+        }
+        catch (err) {
             notification.warn({
-                message: err.data.message,
+                message: err.message,
                 description: 'This feature has been updated later!',
-            })}
-      }).catch((err)=>{
-        notification.warn({
-            message: err.message,
-            description: 'This feature has been updated later!',
-        })}
-    )
+            })
+        }
     }
 
     render() {
@@ -67,7 +74,7 @@ class Register extends Component {
                                 <div className="form-group">
                                     <Form.Item
                                         name="email"
-                                        
+
                                         rules={[
                                             {
                                                 required: true,
@@ -86,7 +93,7 @@ class Register extends Component {
                                 <div className="form-group">
                                     <Form.Item
                                         name="username"
-                                        
+
                                         rules={[
                                             {
                                                 required: true,
@@ -105,7 +112,7 @@ class Register extends Component {
                                 <div className="form-group form-forgot">
                                     <Form.Item
                                         name="password"
-                                        
+
                                         rules={[
                                             {
                                                 required: true,
@@ -124,7 +131,7 @@ class Register extends Component {
                                 <div className="form-group form-forgot">
                                     <Form.Item
                                         name="confirmPassword"
-                                       
+
                                         rules={[
                                             {
                                                 required: true,
@@ -143,7 +150,7 @@ class Register extends Component {
                                 <div className="form-group form-forgot">
                                     <Form.Item
                                         name="phone"
-                                       
+
                                         rules={[
                                             {
                                                 required: true,
