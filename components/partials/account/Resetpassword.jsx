@@ -1,23 +1,34 @@
 import React from "react";
+import Router from 'next/router';
 import { connect } from 'react-redux'
 import Link from 'next/link';
 import { Form, Input, Button, notification } from 'antd';
 import { Resetps } from "components/api/url-helper";
 import axios from "axios";
-const Resetpaassword = () => {
-
+const Resetpaassword = (props) => {
+    console.log(props.emailId);
     const handleLoginSubmit = (values) => {
         console.log("values ", values);
-        let id = "yuvarajsarathi207@gmail.com";
-        let data = {
-
-            password: values.password,
-            confirmPassword: values.conformpassword,
-        }
-        // Resetps(data)
-        axios.post(`http://localhost:8899/reset-password/`,{ params: id},{data}).then(
-            (res) => console.log(res)
-        ).catch(err => (console.log(err)));
+        let data = { emailId: props.emailId, password: values.password, confirmPassword: values.confirmPassword };
+        console.log(props.emailId);
+        Resetps(data)
+            // axios.post(`http://localhost:8899/reset-password/${data.emailId}`, data )
+            .then(
+                (res) => {
+                    if (res.status == 200) {
+                        notification.success({
+                            message: res.data.message,
+                            description: 'This feature has been updated later!',
+                        });
+                        Router.push('/account/login');
+                    } else {
+                        notification.warn({
+                            message: res.data.message,
+                            description: 'This feature has been updated later!',
+                        });
+                    }
+                }
+            ).catch(err => (console.log(err)));
     }
 
     return (
@@ -61,7 +72,7 @@ const Resetpaassword = () => {
                             </div>
                             <div className="form-group form-forgot">
                                 <Form.Item
-                                    name="conformpassword"
+                                    name="confirmPassword"
                                     rules={[
                                         {
                                             required: true,

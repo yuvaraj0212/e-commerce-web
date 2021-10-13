@@ -27,9 +27,9 @@ class Register extends Component {
                     console.log(res.status);
                     console.log(res.data.message);
                     if (res.status == 200) {
-                        notification.warn({
-                            // message: res.data.message,
-                            message: "res.data.message",
+                        notification.success({
+                            message: res.data.message,
+                            // message: "res.data.message",
                             description: 'This feature has been updated later!',
                         });
                         return Router.push('/account/login');

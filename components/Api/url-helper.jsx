@@ -13,4 +13,4 @@ export const getCatrgrylist = () =>axios.get("http://localhost:8899/category/cat
 
 export const forgotpassword = (data) => axios.get('http://localhost:8899/forget-password',{ params: data} );
 
-export const Resetps = (data) => axios.post(`http://localhost:8899/reset-password/${data.emailId}`,data.password,data.confirmPassword );
+export const Resetps = (data) => axios.post(`http://localhost:8899/reset-password/${data.emailId}`,data);
