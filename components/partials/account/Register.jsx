@@ -136,13 +136,13 @@ class Register extends Component {
                                             {
                                                 required: true,
                                                 message:
-                                                    'Please input your password!',
+                                                    'Please input your confirmPassword!',
                                             },
                                         ]}>
                                         <Input
                                             className="form-control"
                                             type="password"
-                                            placeholder="Password..."
+                                            placeholder="confirmPassword..."
 
                                         />
                                     </Form.Item>
@@ -166,14 +166,17 @@ class Register extends Component {
                                         />
                                     </Form.Item>
                                 </div>
-                                <div className="form-group submit">
+                                {/* <div className="form-group submit">
                                     <Form.Item>
                                         <Button htmlType="submit">
                                             Submit
                                         </Button>
                                     </Form.Item>
+                                </div> */}
+                                <div className="ps-form__bottom text-right ">
+                                   
+                                    <button className=" ps-btn success " htmlType="submit">Submit</button>
                                 </div>
-                                {/* {console.log(this.state)} */}
                             </div>
                             <div className="ps-form__footer">
                                 <p>Connect with: </p>

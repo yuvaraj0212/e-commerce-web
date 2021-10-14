@@ -4,10 +4,10 @@ import {notification } from 'antd';
 import { actionTypes, loginSuccess, logOutSuccess } from './action';
 
 const modalSuccess = type => {
-    notification[type]({
-        message: 'Wellcome back',
-        description: 'You are login successful!',
-    });
+    // notification[type]({
+    //     message: 'Wellcome back',
+    //     description: 'You are login successful!',
+    // });
 };
 
 const modalWarning = type => {

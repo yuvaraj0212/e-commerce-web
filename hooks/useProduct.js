@@ -44,7 +44,7 @@ function getImageURL(source, size) {
 
 export default function useProduct() {
     return {
-        thumbnailImage: (payload) => {
+        ImageUrl: (payload) => {
             if (payload) {
                 if (payload.imageURL) {
                     return (
@@ -53,6 +53,23 @@ export default function useProduct() {
                                 <img
                                     src={payload.imageURL}
                                     // src={getImageURL(payload.thumbnail)}
+                                    alt={getImageURL(payload.thumbnail)}
+                                />
+                            </LazyLoad>
+                        </>
+                    );
+                }
+            }
+        },
+        thumbnailImage: (payload) => {
+            if (payload) {
+                if (payload.imageURL) {
+                    return (
+                        <>
+                            <LazyLoad>
+                                <img
+                                    // src={payload.imageURL}
+                                    src={getImageURL(payload.thumbnail)}
                                     alt={getImageURL(payload.thumbnail)}
                                 />
                             </LazyLoad>

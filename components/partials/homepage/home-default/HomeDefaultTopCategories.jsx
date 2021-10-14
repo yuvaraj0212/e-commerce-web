@@ -1,12 +1,32 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
+import axios from 'axios';
 import Link from 'next/link';
 
-const HomeDefaultTopCategories = () => (
+const HomeDefaultTopCategories = () =>{
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        axios.get("http://localhost:8899/category/category-list").then((res) => {
+            setData(res.data.result);
+        });
+    }, []);
+    console.log("HomeDefaultTopCategories",data);
+    return(
     <div className="ps-top-categories">
         <div className="ps-container">
             <h3>Top categories of the month</h3>
             <div className="row">
-                <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
+                {data.map((cat,index)=>
+            <div key={index} className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
+                    <div className="ps-block--category">
+                        <Link href="/shop">
+                            <a className="ps-block__overlay"></a>
+                        </Link>
+                        <img src={cat.imageURL} alt={cat.desc} />
+                        <p>{cat.name}</p>
+                    </div>
+                </div>
+                )}
+               {/*  <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category">
                         <Link href="/shop">
                             <a className="ps-block__overlay"></a>
@@ -77,10 +97,10 @@ const HomeDefaultTopCategories = () => (
                         <img src="/static/img/categories/8.jpg" alt="martfury" />
                         <p>Technology Toys</p>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     </div>
-);
+);} 
 
 export default HomeDefaultTopCategories;

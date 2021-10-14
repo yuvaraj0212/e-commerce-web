@@ -12,18 +12,22 @@ import HeaderDefault from '~/components/shared/headers/HeaderDefault';
 import PageContainer from '~/components/layouts/PageContainer';
 import Newletters from '~/components/partials/commons/Newletters';
 import HeaderMobileProduct from '~/components/shared/header-mobile/HeaderMobileProduct';
-
+import Axios from 'axios';
 const ProductDefaultPage = () => {
     const router = useRouter();
-    const { pid } = router.query;
+    const  ID  = router.query;
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(false);
 
     async function getProduct(pid) {
         setLoading(true);
-        const responseData = await ProductRepository.getProductsById(pid);
+        console.log(ID.pid);
+        // const responseData = await ProductRepository.getProductsById(pid);
+        let data={productId:ID.pid}
+        Axios.get('http://localhost:8899/product/product-details',{params: data}).then((responseData)=>{
+             console.log("responseData",responseData);
         if (responseData) {
-            setProduct(responseData);
+            setProduct(responseData.data.result);
             setTimeout(
                 function () {
                     setLoading(false);
@@ -31,12 +35,14 @@ const ProductDefaultPage = () => {
                 250
             );
         }
+        })
+       
     }
 
     useEffect(() => {
-        getProduct(pid);
-    }, [pid]);
-
+        getProduct(ID);
+    }, [ID]);
+    console.log(product);
     const breadCrumb = [
         {
             text: 'Home',
@@ -47,7 +53,7 @@ const ProductDefaultPage = () => {
             url: '/shop',
         },
         {
-            text: product ? product.title : 'Loading...',
+            text: product ? product.name : 'Loading...',
         },
     ];
     // Views

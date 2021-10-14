@@ -22,11 +22,11 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
 
     useEffect(() => {
         let images = [];
-        if (product && product.images.length > 0) {
-            product.images.map((item) => {
-                images.push(`${baseUrl}${item.url}`);
-            });
-            setProductImages(images);
+        if (product && product.imageURL.length > 0) {
+            // product.map((item) => {
+            //     // images.push(`${baseUrl}${item.url}`);
+            // });
+            setProductImages(product.imageURL);
         }
         setGallery(galleryCarousel.current);
         setVariant(variantCarousel.current);
@@ -78,20 +78,30 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
 
     //Views
     let lightboxView, variantCarouselView, imagesView, galleryImagesView;
-    if (productImages.length > 0) {
-        imagesView = productImages.map((item) => (
-            <div className="item" key={item}>
-                <img src={item} alt={item} />
-            </div>
-        ));
-        galleryImagesView = productImages.map((item, index) => (
-            <div className="item" key={item}>
-                <a href="#" onClick={(e) => handleOpenLightbox(e, index)}>
-                    <img src={item} alt={item} />
-                </a>
-            </div>
-        ));
-    }
+    imagesView = <div className="item" key={productImages}>
+        <img src={productImages} alt={productImages} />
+    </div>
+    galleryImagesView = <div className="item">
+        <a href="#" onClick={(e) => handleOpenLightbox(e, )}>
+            <img src={productImages} alt={productImages} />
+        </a>
+    </div>
+
+
+    // if (productImages.length > 0) {
+    //     imagesView = productImages.map((item) => (
+    //         <div className="item" key={item}>
+    //             <img src={item} alt={item} />
+    //         </div>
+    //     ));
+    //     galleryImagesView = productImages.map((item, index) => (
+    // <div className="item" key={item}>
+    //     <a href="#" onClick={(e) => handleOpenLightbox(e, index)}>
+    //         <img src={item} alt={item} />
+    //     </a>
+    // </div>
+    //     ));
+    // }
     if (vertical) {
         variantCarouselView = (
             <Slider
@@ -132,8 +142,8 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
                 nextSrc={productImages[(photoIndex + 1) % productImages.length]}
                 prevSrc={
                     productImages[
-                        (photoIndex + productImages.length - 1) %
-                            productImages.length
+                    (photoIndex + productImages.length - 1) %
+                    productImages.length
                     ]
                 }
                 onCloseRequest={() => {
@@ -142,7 +152,7 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
                 onMovePrevRequest={() => {
                     setPhotoIndex(
                         (photoIndex + productImages.length - 1) %
-                            productImages.length
+                        productImages.length
                     );
                 }}
                 onMoveNextRequest={() => {
