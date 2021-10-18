@@ -3,6 +3,7 @@ import BreadCrumb from '~/components/elements/BreadCrumb';
 import ShopItems from '~/components/partials/shop/ShopItems';
 import ProductGroupByCarousel from '~/components/partials/product/ProductGroupByCarousel';
 import ShopCategories from '~/components/partials/shop/ShopCategories';
+import HomeDefaultTopCategories from '~/components/partials/homepage/home-default/HomeDefaultTopCategories';
 import ShopBrands from '~/components/partials/shop/ShopBrands';
 import ShopBanner from '~/components/partials/shop/ShopBanner';
 import WidgetShopCategories from '~/components/shared/widgets/WidgetShopCategories';
@@ -29,7 +30,7 @@ const ShopDefaultPage = () => {
                 <div className="ps-container">
                     <ShopBanner />
                     <ShopBrands />
-                    <ShopCategories />
+                    {/* <ShopCategories /> */}<HomeDefaultTopCategories />
                     <div className="ps-layout--shop">
                         <div className="ps-layout__left">
                             <WidgetShopCategories />
@@ -37,14 +38,14 @@ const ShopDefaultPage = () => {
                             <WidgetShopFilterByPriceRange />
                         </div>
                         <div className="ps-layout__right">
-                            <ProductGroupByCarousel
+                            {/* <ProductGroupByCarousel
                                 collectionSlug="shop-best-seller-items"
                                 title="Best Sale Items"
-                            />
-                            <ProductGroupByCarousel
+                            /> */}
+                            {/* <ProductGroupByCarousel
                                 collectionSlug="shop-recommend-items"
                                 title="Recommended Items"
-                            />
+                            /> */}
                             <ShopItems columns={6} pageSize={18} />
                         </div>
                     </div>

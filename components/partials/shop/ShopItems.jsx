@@ -15,11 +15,12 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
     const { query } = Router;
     const [listView, setListView] = useState(true);
     const [total, setTotal] = useState(0);
+    const [productItems, setProductItems] = useState();
     const [classes, setClasses] = useState(
         'col-xl-4 col-lg-4 col-md-3 col-sm-6 col-6'
     );
 
-    const { productItems, loading, getProducts } = useGetProducts();
+    const {  loading, getProducts } = useGetProducts();
 
     function handleChangeViewMode(e) {
         e.preventDefault();
@@ -33,7 +34,8 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
     async function getTotalRecords(params) {
         const responseData = await ProductRepository.getTotalRecords();
         if (responseData) {
-            setTotal(responseData);
+            setTotal(responseData.length);
+            setProductItems(responseData);
         }
     }
 
@@ -81,7 +83,7 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
 
     // Views
     let productItemsView;
-    if (!loading) {
+    // if (!loading) {
         if (productItems && productItems.length > 0) {
             if (listView) {
                 const items = productItems.map((item) => (
@@ -102,14 +104,15 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
         } else {
             productItemsView = <p>No product found.</p>;
         }
-    } else {
-        const skeletonItems = generateTempArray(12).map((item) => (
-            <div className={classes} key={item}>
-                <SkeletonProduct />
-            </div>
-        ));
-        productItemsView = <div className="row">{skeletonItems}</div>;
-    }
+    // }
+    //  else {
+    //     const skeletonItems = generateTempArray(12).map((item) => (
+    //         <div className={classes} key={item}>
+    //             <SkeletonProduct />
+    //         </div>
+    //     ));
+    //     productItemsView = <div className="row">{skeletonItems}</div>;
+    // }
 
     return (
         <div className="ps-shopping">

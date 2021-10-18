@@ -20,7 +20,7 @@ const ShopCategories = () => {
                         key={category.id}>
                         <div className="ps-block--category-2" data-mh="categories">
                             <div className="ps-block__thumbnail m-1">
-                                <img src={category.imageURL} alt="martfury" />
+                                <img style={{height:"178px"}} src={category.imageURL} alt="martfury" />
                             </div>
                             <div className="ps-block__content">
                                 <h4>{category.name}</h4>

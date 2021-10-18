@@ -91,10 +91,10 @@ const ModuleDetailShoppingActionsSidebar = ({ ecomerce, product }) => {
                     <i className="icon-heart mr-1"></i>
                     Add to wishlist
                 </a>
-                <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
+                {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
                     <i className="icon-chart-bars mr-1"></i>
                     Compare
-                </a>
+                </a> */}
             </div>
         </div>
     );

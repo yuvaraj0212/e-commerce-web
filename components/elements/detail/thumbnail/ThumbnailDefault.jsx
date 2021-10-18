@@ -83,7 +83,7 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
     </div>
     galleryImagesView = <div className="item">
         <a href="#" onClick={(e) => handleOpenLightbox(e, )}>
-            <img src={productImages} alt={productImages} />
+            <img src={productImages} alt={productImages} style={{height:"325px"}}/>
         </a>
     </div>
 

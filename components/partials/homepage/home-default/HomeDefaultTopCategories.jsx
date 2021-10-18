@@ -21,7 +21,7 @@ const HomeDefaultTopCategories = () =>{
                         <Link href="/shop">
                             <a className="ps-block__overlay"></a>
                         </Link>
-                        <img src={cat.imageURL} alt={cat.desc} />
+                        <img  style={{height:"178px"}} src={cat.imageURL} alt={cat.desc} />
                         <p>{cat.name}</p>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import Repository, { baseUrl, serializeQuery } from './Repository';
-
+import Axios from 'axios';
 class ProductRepository {
     async getRecords(params) {
         const reponse = await Repository.get(
@@ -50,9 +50,10 @@ class ProductRepository {
     }
 
     async getTotalRecords() {
-        const reponse = await Repository.get(`${baseUrl}/products/count`)
+        // const reponse = await Repository.get(`${baseUrl}/products/count`)
+        const reponse =  Axios.get('http://localhost:8899/product/product-list')
             .then((response) => {
-                return response.data;
+                return response.data.result;
             })
             .catch((error) => ({ error: JSON.stringify(error) }));
         return reponse;

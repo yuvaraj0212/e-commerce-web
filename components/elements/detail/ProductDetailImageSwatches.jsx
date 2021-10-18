@@ -234,9 +234,9 @@ class ProductDetailImageSwatches extends Component {
                                 <a href="#">
                                     <i className="icon-heart"></i>
                                 </a>
-                                <a href="#">
+                                {/* <a href="#">
                                     <i className="icon-chart-bars"></i>
-                                </a>
+                                </a> */}
                             </div>
                         </div>
                         <div className="ps-product__specification">

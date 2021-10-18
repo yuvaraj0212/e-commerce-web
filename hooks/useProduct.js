@@ -51,6 +51,7 @@ export default function useProduct() {
                         <>
                             <LazyLoad>
                                 <img
+                                    style={{height:" 200px"}}
                                     src={payload.imageURL}
                                     // src={getImageURL(payload.thumbnail)}
                                     alt={getImageURL(payload.thumbnail)}

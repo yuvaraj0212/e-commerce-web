@@ -104,9 +104,9 @@ const ModuleDetailShoppingActions = ({
                     <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
                         <i className="icon-heart"></i>
                     </a>
-                    <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
+                    {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
                         <i className="icon-chart-bars"></i>
-                    </a>
+                    </a> */}
                 </div>
             </div>
         );
@@ -145,9 +145,9 @@ const ModuleDetailShoppingActions = ({
                         <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
                             <i className="icon-heart"></i>
                         </a>
-                        <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
+                        {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
                             <i className="icon-chart-bars"></i>
-                        </a>
+                        </a> */}
                     </div>
                 </div>
                 <a className="ps-btn" href="#" onClick={(e) => handleBuynow(e)}>
