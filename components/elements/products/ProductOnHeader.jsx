@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { connect } from 'react-redux';
 import useProduct from '~/hooks/useProduct';
 import useEcomerce from '~/hooks/useEcomerce';
+import LazyLoad from 'react-lazyload';
 
 const ProductOnHeader = ({ ecomerce, product }) => {
-    const { thumbnailImage, price, title } = useProduct();
+    const { ImageUrl, thumbnailImage, price, title } = useProduct();
     const { addItem } = useEcomerce();
     function handleAddItemToCart(e) {
         e.preventDefault();
@@ -16,7 +17,13 @@ const ProductOnHeader = ({ ecomerce, product }) => {
         <div className="ps-product--header-sticky">
             <div className="ps-product__thumbnail">
                 <Link href="/product/[pid]" as={`/product/${product.id}`}>
-                    <a>{thumbnailImage(product)}</a>
+                    <LazyLoad>
+                        <img
+                            src={product.imageURL}
+                            alt={product.thumbnail}
+                        />
+                    </LazyLoad>
+                    {/* <a>{ImageUrl(product)}</a> */}
                 </Link>
             </div>
             <div className="ps-product__wrapper">

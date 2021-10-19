@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import { Menu } from 'antd';
 import Link from 'next/link';
-import categories from '../../../public/static/data/static-categories.json';
+import axios from 'axios';
+// import categories from '../../../public/static/data/static-categories.json';
 
 const { SubMenu } = Menu;
 
 class PanelCategories extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            categories:[] 
+        }
+    }
+    componentDidMount=()=>{
+        axios.get("http://localhost:8899/category/category-list").then((res) => {
+            this.setState({categories:res.data.result});
+        });
     }
 
     rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
@@ -34,7 +43,7 @@ class PanelCategories extends Component {
                 mode="inline"
                 openKeys={this.state.openKeys}
                 onOpenChange={this.onOpenChange}>
-                {categories.map(category => (
+                {this.state.categories.map(category => (
                     <Menu.Item key={category.id}>
                         <a href={`/shop?category=${category.slug}`}>
                             {category.name}

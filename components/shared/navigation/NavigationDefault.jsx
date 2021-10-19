@@ -29,9 +29,9 @@ class NavigationDefault extends Component {
                     <div className="navigation__left">
                         <MenuCategoriesDropdown />
                     </div>
-                    <div className="navigation__right">
+                    <div className="navigation__right ">
                         <Menu
-                            source={menuData.menuPrimary.menu_1}
+                            // source={menuData.menuPrimary.menu_1}
                             className="menu"
                         />
                         <ul className="navigation__extra">

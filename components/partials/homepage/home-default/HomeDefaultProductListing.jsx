@@ -4,10 +4,12 @@ import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 import { generateTempArray } from '~/utilities/common-helpers';
 import { ProductGroupWithCarousel } from '~/components/partials/product/ProductGroupWithCarousel';
 import useGetProducts from '~/hooks/useGetProducts';
+import Axios from 'axios';
 
 const HomeDefaultProductListing = ({ collectionSlug, title }) => {
     const [currentCollection, setCurrentCollection] = useState('new-arrivals');
-    const { productItems, loading, getProductsByCollection } = useGetProducts();
+    const [productItems, setProductItems] = useState([]);
+    // const { productItems, loading, getProductsByCollection } = useGetProducts();
     const sectionLinks = [
         {
             title: 'New Arrivals',
@@ -33,8 +35,14 @@ const HomeDefaultProductListing = ({ collectionSlug, title }) => {
     }
 
     useEffect(() => {
-        getProductsByCollection(collectionSlug);
-    }, [collectionSlug]);
+        // getProductsByCollection(collectionSlug);
+        // }, [collectionSlug]);
+        let data={categoryId:collectionSlug};
+        Axios.get('http://localhost:8899/product/category-filter',{params:data}).then((res) => {
+            console.log("product",res)
+            setProductItems(res.data.result)
+        })
+    }, []);
 
     const sectionLinksView = sectionLinks.map((link) => (
         <li
@@ -48,7 +56,7 @@ const HomeDefaultProductListing = ({ collectionSlug, title }) => {
 
     // views
     let productItemsView;
-    if (!loading) {
+    // if (!loading) {
         if (productItems && productItems.length > 0) {
             productItemsView = (
                 <ProductGroupWithCarousel
@@ -59,14 +67,15 @@ const HomeDefaultProductListing = ({ collectionSlug, title }) => {
         } else {
             productItemsView = <p>No product(s) found.</p>;
         }
-    } else {
-        const skeletons = generateTempArray(6).map((item) => (
-            <div className="col-xl-2 col-lg-3 col-sm-3 col-6" key={item}>
-                <SkeletonProduct />
-            </div>
-        ));
-        productItemsView = <div className="row">{skeletons}</div>;
-    }
+    // } 
+    // else {
+    //     const skeletons = generateTempArray(6).map((item) => (
+    //         <div className="col-xl-2 col-lg-3 col-sm-3 col-6" key={item}>
+    //             <SkeletonProduct />
+    //         </div>
+    //     ));
+    //     productItemsView = <div className="row">{skeletons}</div>;
+    // }
 
     return (
         <div className="ps-product-list">

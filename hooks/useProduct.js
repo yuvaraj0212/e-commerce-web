@@ -44,13 +44,32 @@ function getImageURL(source, size) {
 
 export default function useProduct() {
     return {
-        thumbnailImage: (payload) => {
+        ImageUrl: (payload) => {
             if (payload) {
-                if (payload.thumbnail) {
+                if (payload.imageURL) {
                     return (
                         <>
                             <LazyLoad>
                                 <img
+                                    style={{height:" 200px"}}
+                                    src={payload.imageURL}
+                                    // src={getImageURL(payload.thumbnail)}
+                                    alt={getImageURL(payload.thumbnail)}
+                                />
+                            </LazyLoad>
+                        </>
+                    );
+                }
+            }
+        },
+        thumbnailImage: (payload) => {
+            if (payload) {
+                if (payload.imageURL) {
+                    return (
+                        <>
+                            <LazyLoad>
+                                <img
+                                    // src={payload.imageURL}
                                     src={getImageURL(payload.thumbnail)}
                                     alt={getImageURL(payload.thumbnail)}
                                 />
@@ -178,7 +197,7 @@ export default function useProduct() {
         title: (payload) => {
             let view = (
                 <Link href="/product/[pid]" as={`/product/${payload.id}`}>
-                    <a className="ps-product__title">{payload.title}</a>
+                    <a className="ps-product__title">{payload.name}</a>
                 </Link>
             );
             return view;

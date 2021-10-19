@@ -284,9 +284,9 @@ const ModuleProductHasVariants = ({ ecomerce, currency, product }) => {
                         <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
                             <i className="icon-heart"></i>
                         </a>
-                        <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
+                        {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
                             <i className="icon-chart-bars"></i>
-                        </a>
+                        </a> */}
                     </div>
                 </div>
                 <ModuleProductDetailSpecification />

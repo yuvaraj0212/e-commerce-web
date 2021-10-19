@@ -18,6 +18,8 @@ import '~/scss/organic.scss';
 import '~/scss/technology.scss';
 import '~/scss/autopart.scss';
 import '~/scss/electronic.scss';
+import{getUser} from "../components/api/url-helper";
+import {login}from '../store/auth/action';
 
 function App({ Component, pageProps }) {
     useEffect(() => {
@@ -25,7 +27,6 @@ function App({ Component, pageProps }) {
             document.getElementById('__next').classList.add('loaded');
         }, 100);
     });
-
     return (
         <CookiesProvider>
             <MasterLayout>

@@ -25,11 +25,12 @@ const Menu = ({ source, className }) => {
                 );
             }
         });
-    } else {
+    } 
+    else {
         menuView = (
             <li>
                 <a href="#" onClick={(e) => e.preventDefault()}>
-                    No menu item.
+                   
                 </a>
             </li>
         );
