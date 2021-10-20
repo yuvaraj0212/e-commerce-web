@@ -92,12 +92,12 @@ const ProductDefaultPage = () => {
                             <ProductWidgets />
                         </div>
                     </div>
-
+{/* 
                     <CustomerBought
                         layout="fullwidth"
                         collectionSlug="deal-of-the-day"
                     />
-                    <RelatedProduct collectionSlug="shop-recommend-items" />
+                    <RelatedProduct collectionSlug="shop-recommend-items" /> */}
                 </div>
             </div>
             <Newletters />

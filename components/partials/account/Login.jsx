@@ -35,12 +35,6 @@ class Login extends Component {
     handleLoginSubmit = (values) => {
 
         getToken(values).then((res) => {
-            console.log(res);
-            console.log(res.data);
-            console.log(res.data.result);
-            // console.log(res.data.result.token);
-            console.log(res.data.status);
-
             if (res.data.status === 200) {
                 this.props.dispatch(login());
                 sessionStorage.setItem("token", JSON.stringify(res.data.result.token));
@@ -63,7 +57,7 @@ class Login extends Component {
         this.setState({ modal2Visible });
     }
     forgetpassword = (value) => {
-        console.log(value);
+        
         try {
             forgotpassword(value).then((res) => {
                 console.log(res);

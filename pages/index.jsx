@@ -20,7 +20,6 @@ const HomepageDefaultPage = () => {
             setData(res.data.result);
         });
     }, []);
-    console.log("HomepageDefaultPage",data);
     return (
         <PageContainer title="PANDIYAN">
             <main id="homepage-1">

@@ -176,9 +176,9 @@ const SearchHeader = () => {
             method="get"
             action="/"
             onSubmit={handleSubmit}>
-            <div className="ps-form__categories">
+            {/* <div className="ps-form__categories">
                 <select className="form-control">{selectOptionView}</select>
-            </div>
+            </div> */}
             <div className="ps-form__input">
                 <input
                     ref={inputEl}

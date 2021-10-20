@@ -30,6 +30,15 @@ class ProductRepository {
             });
         return reponse;
     }
+    async getCategory(id) {
+        const reponse = Axios.get('http://localhost:8899/category/category-details', { params: id })
+            .then((response) => {
+                let Name = response.data.result
+                return Name.name;
+            })
+            .catch((error) => ({ error: JSON.stringify(error) }));
+        return reponse;
+    }
 
     async getBrands() {
         const reponse = await Repository.get(`${baseUrl}/brands`)
@@ -51,7 +60,7 @@ class ProductRepository {
 
     async getTotalRecords() {
         // const reponse = await Repository.get(`${baseUrl}/products/count`)
-        const reponse =  Axios.get('http://localhost:8899/product/product-list')
+        const reponse = Axios.get('http://localhost:8899/product/product-list')
             .then((response) => {
                 return response.data.result;
             })
@@ -68,15 +77,14 @@ class ProductRepository {
         return reponse;
     }
 
-    async getProductsByCategory(payload) {
-        const reponse = await Repository.get(
-            `${baseUrl}/product-categories?slug=${payload}`
-        )
+    async getProductsByCategory(data) {
+        const reponse = Axios.get('http://localhost:8899/product/category-filter', { params: data })
+            // await Repository.get(
+            //     `${baseUrl}/product-categories?slug=${payload}`
+            // )
             .then((response) => {
                 if (response.data) {
-                    if (response.data.length > 0) {
-                        return response.data[0];
-                    }
+                    return response.data.result;
                 } else {
                     return null;
                 }
