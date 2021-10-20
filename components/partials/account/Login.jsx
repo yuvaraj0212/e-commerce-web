@@ -38,6 +38,7 @@ class Login extends Component {
             if (res.data.status === 200) {
                 this.props.dispatch(login());
                 sessionStorage.setItem("token", JSON.stringify(res.data.result.token));
+                sessionStorage.setItem("currentUser", JSON.stringify(res.data.result.id));
                 notification.success({
                         message: 'Wellcome back'+" "+res.data.result.username,
                         description: 'You are login successful!',

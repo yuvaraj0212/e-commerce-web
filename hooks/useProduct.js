@@ -51,10 +51,9 @@ export default function useProduct() {
                         <>
                             <LazyLoad>
                                 <img
-                                    style={{height:" 200px"}}
                                     src={payload.imageURL}
-                                    // src={getImageURL(payload.thumbnail)}
-                                    alt={getImageURL(payload.thumbnail)}
+                                    // style={{height:" 200px"}}
+                                    alt={getImageURL(payload.imageURL)}
                                 />
                             </LazyLoad>
                         </>
@@ -64,7 +63,7 @@ export default function useProduct() {
         },
         thumbnailImage: (payload) => {
             if (payload) {
-                if (payload.imageURL) {
+                if (payload.thumbnail) {
                     return (
                         <>
                             <LazyLoad>

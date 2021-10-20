@@ -2,12 +2,15 @@ import React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { logOut } from '~/store/auth/action';
+import router, { Router } from 'next/router';
 
 const AccountQuickLinks = (props) => {
     const dispatch = useDispatch();
     const handleLogout = (e) => {
         e.preventDefault();
+        sessionStorage.clear();
         dispatch(logOut());
+        router.push("/");
     };
     const accountLinks = [
         {
@@ -54,7 +57,7 @@ const AccountQuickLinks = (props) => {
                     <ul className="ps-list--arrow">
                         {linksView}
                         <li className="ps-block__footer">
-                            <a href="#" onClick={(e) => handleLogout(e)}>
+                            <a onClick={(e) => handleLogout(e)}>
                                 Logout
                             </a>
                         </li>

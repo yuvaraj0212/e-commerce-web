@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import ProductOnCart from '~/components/elements/products/ProductOnCart';
 import useEcomerce from '~/hooks/useEcomerce';
 import { calculateAmount } from '~/utilities/ecomerce-helpers';
+import { getUserCart } from '~/components/api/url-helper';
 
 const MiniCart = ({ ecomerce }) => {
     const { products, removeItem, removeItems, getProducts } = useEcomerce();
@@ -12,15 +13,14 @@ const MiniCart = ({ ecomerce }) => {
         e.preventDefault();
         removeItem({ id: productId }, ecomerce.cartItems, 'cart');
     }
-
     useEffect(() => {
         getProducts(ecomerce.cartItems, 'cart');
     }, [ecomerce]);
-
     let cartItemsView;
     if (products && products.length > 0) {
+       
         const amount = calculateAmount(products);
-        const productItems = products.map((item) => {
+        const productItems = products.map((item) => { 
             return (
                 <ProductOnCart product={item} key={item.id}>
                     <a
@@ -37,7 +37,7 @@ const MiniCart = ({ ecomerce }) => {
                 <div className="ps-cart__footer">
                     <h3>
                         Sub Total:
-                        <strong>${amount ? amount : 0}</strong>
+                        <strong>₹{amount ? amount : 0}</strong>
                     </h3>
                     <figure>
                         <Link href="/account/shopping-cart">

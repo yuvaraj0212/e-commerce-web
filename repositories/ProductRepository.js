@@ -1,5 +1,6 @@
 import Repository, { baseUrl, serializeQuery } from './Repository';
 import Axios from 'axios';
+import { getUserCart } from '~/components/api/url-helper';
 class ProductRepository {
     async getRecords(params) {
         const reponse = await Repository.get(
@@ -159,12 +160,22 @@ class ProductRepository {
         return reponse;
     }
 
-    async getProductsByIds(payload) {
-        const endPoint = `${baseUrl}/products?${payload}`;
-        const reponse = await Repository.get(endPoint)
+    async getProductsByCartId(payload) {
+        // const endPoint = `${baseUrl}/products?${payload}`;
+        // const reponse = await Repository.get(endPoint)
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        };
+        const reponse = getUserCart(config)
             .then((response) => {
-                if (response.data && response.data.length > 0) {
-                    return response.data;
+                if (response.data && response.data.result.length > 0) {
+                    console.log("ok",response.data);
+                    return response.data.result;
                 } else {
                     return null;
                 }

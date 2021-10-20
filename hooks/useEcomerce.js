@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import ProductRepository from '~/repositories/ProductRepository';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
@@ -7,13 +7,28 @@ import {
     setWishlistTtems,
     setCartItems,
 } from '~/store/ecomerce/action';
+import { getUser,addCart} from '~/components/api/url-helper';
 
 export default function useEcomerce() {
     const dispatch = useDispatch();
+    const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(false);
     const [cartItemsOnCookie] = useState(null);
     const [cookies, setCookie] = useCookies(['cart']);
     const [products, setProducts] = useState(null);
+    useEffect(() => {
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        const config = {
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        };
+        getUser(config).then(
+            res => {
+                setUser(res.data.result);
+            }
+        )
+    }, [])
     return {
         loading,
         cartItemsOnCookie,
@@ -21,28 +36,30 @@ export default function useEcomerce() {
         getProducts: async (payload, group = '') => {
             setLoading(true);
             if (payload && payload.length > 0) {
-                let queries = '';
-                payload.forEach((item) => {
-                    if (queries === '') {
-                        queries = `id_in=${item.id}`;
-                    } else {
-                        queries = queries + `&id_in=${item.id}`;
-                    }
-                });
-                const responseData = await ProductRepository.getProductsByIds(
-                    queries
+            //     let queries = '';
+            //     payload.forEach((item) => {
+            //         if (queries === '') {
+            //             queries = `id_in=${item.id}`;
+            //         } else {
+            //             queries = queries + `&id_in=${item.id}`;
+            //         }
+            //     });
+                const responseData = await ProductRepository.getProductsByCartId(
+                    // queries
                 );
+                console.log("rep",responseData);
                 if (responseData && responseData.length > 0) {
                     if (group === 'cart') {
+                        console.log("cart");
                         let cartItems = responseData;
-                        payload.forEach((item) => {
-                            let existItem = cartItems.find(
-                                (val) => val.id === item.id
-                            );
-                            if (existItem) {
-                                existItem.quantity = item.quantity;
-                            }
-                        });
+                        // payload.forEach((item) => {
+                        //     let existItem = cartItems.find(
+                        //         (val) => val.id === item.id
+                        //     );
+                        //     if (existItem) {
+                        //         existItem.quantity = item.quantity;
+                        //     }
+                        // });
 
                         setProducts(cartItems);
                     } else {
@@ -93,6 +110,7 @@ export default function useEcomerce() {
 
         addItem: (newItem, items, group) => {
             let newItems = [];
+            console.log(newItem);
             if (items) {
                 newItems = items;
                 const existItem = items.find((item) => item.id === newItem.id);
@@ -108,7 +126,9 @@ export default function useEcomerce() {
             }
             if (group === 'cart') {
                 setCookie('cart', newItems, { path: '/' });
+                addCart(newItem)
                 dispatch(setCartItems(newItems));
+
             }
             if (group === 'wishlist') {
                 setCookie('wishlist', newItems, { path: '/' });
@@ -132,8 +152,7 @@ export default function useEcomerce() {
                 currentItems.splice(index, 1);
             }
             if (group === 'cart') {
-                setCookie('cart', currentItems, { path: '/' });
-
+                setCookie('cart', currentItems, { path: '/' });               
                 dispatch(setCartItems(currentItems));
             }
 

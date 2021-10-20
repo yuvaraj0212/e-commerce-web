@@ -28,21 +28,21 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
         const items = cartItems.map((item) => (
             <tr key={item.id}>
                 <td>
-                    <ProductCart product={item} />
+                    <ProductCart product={item.productModel} />
                 </td>
                 <td data-label="price" className="price">
-                    ${item.price}
+                ₹{item.productModel.price}
                 </td>
                 <td data-label="quantity">
                     <div className="form-group--number">
                         <button
                             className="up"
-                            onClick={(e) => handleIncreaseItemQty(e, item.id)}>
+                            onClick={(e) => handleIncreaseItemQty(e, item.productModel.id)}>
                             +
                         </button>
                         <button
                             className="down"
-                            onClick={(e) => handleDecreaseItemQty(e, item.id)}>
+                            onClick={(e) => handleDecreaseItemQty(e, item.productModel.id)}>
                             -
                         </button>
                         <input
@@ -54,7 +54,7 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
                     </div>
                 </td>
                 <td data-label="total">
-                    <strong>${(item.price * item.quantity).toFixed(2)}</strong>
+                    <strong>₹{(item.productModel.price * item.quantity).toFixed(2)}</strong>
                 </td>
                 <td>
                     <a href="#" onClick={(e) => handleRemoveItem(e, item.id)}>

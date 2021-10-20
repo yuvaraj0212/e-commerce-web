@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Modal } from 'antd';
 import { connect } from 'react-redux';
 import ProductDetailQuickView from '~/components/elements/detail/ProductDetailQuickView';
 import useEcomerce from '~/hooks/useEcomerce';
+import { getUser } from '~/components/api/url-helper';
+import Router from 'next/router';
 
 const ModuleProductActions = ({ product, ecomerce }) => {
     const [isQuickView, setIsQuickView] = useState(false);
+    const [user, setUser] = useState([]);
     const { addItem } = useEcomerce();
-
+    useEffect(() => {
+        let data = JSON.parse(sessionStorage.getItem('currentUser'))
+        // const config = {
+        //     headers: {
+        //         Authorization: `Bearer ${data}`
+        //     }
+        // };
+        // getUser(config).then(
+        //     res => {
+                setUser(data);
+        //     }
+        // )
+    }, [])
     function handleAddItemToCart(e) {
         e.preventDefault();
-        addItem({ id: product.id, quantity: 1 }, ecomerce.cartItems, 'cart');
+        if (user) {
+            addItem({ productId: product.id, quantity: 1,userId:user }, ecomerce.cartItems, 'cart');
+        } else {
+           return Router.push('/account/login')
+        }
+        
     }
 
     function handleAddItemToWishlist(e) {
