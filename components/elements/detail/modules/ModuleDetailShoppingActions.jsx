@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Modal } from 'antd';
@@ -11,14 +11,21 @@ const ModuleDetailShoppingActions = ({
 }) => {
     const [quantity, setQuantity] = useState(1);
     const Router = useRouter();
+    const [user, setUser] = useState([]);
     const { addItem } = useEcomerce();
+    useEffect(() => {
+        let data = JSON.parse(sessionStorage.getItem('currentUser'));
+                setUser(data);
+    }, [])
     function handleAddItemToCart(e) {
         e.preventDefault();
-        addItem(
-            { id: product.id, quantity: quantity },
-            ecomerce.cartItems,
-            'cart'
-        );
+        e.preventDefault();
+        console.log(user);
+        if (user) {
+            addItem({ productId: product.id, quantity: 1,userId:user }, ecomerce.cartItems, 'cart');
+        } else {
+           return Router.push('/account/login')
+        }
     }
 
     function handleBuynow(e) {

@@ -1,31 +1,47 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import ProductOnCart from '~/components/elements/products/ProductOnCart';
 import useEcomerce from '~/hooks/useEcomerce';
 import { calculateAmount } from '~/utilities/ecomerce-helpers';
-import { getUserCart } from '~/components/api/url-helper';
+import ProductRepository from '~/repositories/ProductRepository';
 
 const MiniCart = ({ ecomerce }) => {
-    const { products, removeItem, removeItems, getProducts } = useEcomerce();
+    const {
+        // products,
+        removeItem, removeItems, getProducts } = useEcomerce();
 
+    const [products, setProducts] = useState([]);
     function handleRemoveItem(e, productId) {
         e.preventDefault();
-        removeItem({ id: productId }, ecomerce.cartItems, 'cart');
+        console.log("selectedItem", productId);
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+        const config = {
+            token: data,
+            data: { cartId: productId }
+        };
+        removeItem(config, ecomerce.cartItems, 'cart');
+        getproducts();
+        console.log("enterted"); console.log(products);
+    }
+    const getproducts = async () => {
+        const Products = await ProductRepository.getProductsByCartId();
+        setProducts(Products);
     }
     useEffect(() => {
-        getProducts(ecomerce.cartItems, 'cart');
+        getproducts();
     }, [ecomerce]);
     let cartItemsView;
     if (products && products.length > 0) {
-       
+
         const amount = calculateAmount(products);
-        const productItems = products.map((item) => { 
+        const productItems = products.map((item) => {
             return (
                 <ProductOnCart product={item} key={item.id}>
                     <a
                         className="ps-product__remove"
-                        onClick={(e) => handleRemoveItem(e)}>
+                        onClick={(e) => handleRemoveItem(e, item.id)}>
                         <i className="icon-cross"></i>
                     </a>
                 </ProductOnCart>
@@ -62,7 +78,7 @@ const MiniCart = ({ ecomerce }) => {
 
     return (
         <div className="ps-cart--mini">
-            <a className="header__extra" href="#">
+            <a className="header__extra" >
                 <i className="icon-bag2"></i>
                 <span>
                     <i>{products ? products.length : 0}</i>

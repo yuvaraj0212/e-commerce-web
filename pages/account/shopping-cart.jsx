@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
 import PageContainer from '~/components/layouts/PageContainer';
 import FooterDefault from '~/components/shared/footers/FooterDefault';
@@ -8,16 +8,24 @@ import useEcomerce from '~/hooks/useEcomerce';
 import ModuleEcomerceCartItems from '~/components/ecomerce/modules/ModuleEcomerceCartItems';
 import Link from 'next/link';
 import ModuleCartSummary from '~/components/ecomerce/modules/ModuleCartSummary';
+import ProductRepository from '~/repositories/ProductRepository';
 
 const ShoppingCartScreen = ({ ecomerce }) => {
-    const { products, getProducts } = useEcomerce();
+    // const { products, getProducts } = useEcomerce();
+    const [products, setProducts] = useState([]);
 
+    // useEffect(() => {
+    //     if (ecomerce.cartItems) {
+    //         getProducts(ecomerce.cartItems, 'cart');
+    //     }
+    // }, [ecomerce]);
+    const getproducts = async () => {
+        const Products = await ProductRepository.getProductsByCartId();
+        setProducts(Products);
+    }
     useEffect(() => {
-        if (ecomerce.cartItems) {
-            getProducts(ecomerce.cartItems, 'cart');
-        }
+        getproducts();
     }, [ecomerce]);
-
     const breadCrumb = [
         {
             text: 'Home',
@@ -44,8 +52,8 @@ const ShoppingCartScreen = ({ ecomerce }) => {
                     </div>
                     <div className="ps-section__footer">
                         <div className="row justify-space-between">
-                             <div className="col-xl-8 col-lg-4 col-md-12 col-sm-12 col-12 ">
-                               {/* <div className="row">
+                            <div className="col-xl-8 col-lg-4 col-md-12 col-sm-12 col-12 ">
+                                {/* <div className="row">
                                     <div className="col-lg-6">
                                         <figure>
                                             <figcaption>
@@ -66,7 +74,7 @@ const ShoppingCartScreen = ({ ecomerce }) => {
                                         </figure>
                                     </div>
                                 </div>*/}
-                            </div> 
+                            </div>
                             <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                                 <ModuleCartSummary source={products} />
                                 <Link href="/account/checkout">

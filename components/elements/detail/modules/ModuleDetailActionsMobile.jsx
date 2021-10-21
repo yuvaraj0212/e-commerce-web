@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import useEcomerce from '~/hooks/useEcomerce';
 
 const ModuleDetailActionsMobile = ({ ecomerce, product }) => {
+    const [user, setUser] = useState([]);
     const { addItem } = useEcomerce();
+    useEffect(() => {
+        let data = JSON.parse(sessionStorage.getItem('currentUser'));
+                setUser(data);
+    }, [product])
     const handleAddItemToCart = (e) => {
         e.preventDefault();
-        addItem({ id: product.id, quantity: 1 }, ecomerce.cartItems, 'cart');
+        console.log(user);
+        if (user) {
+            console.log(product.id);
+            addItem({ productId: product.id, quantity: 1,userId:user }, ecomerce.cartItems, 'cart');
+        } else {
+           return Router.push('/account/login')
+        }
     };
 
     return (

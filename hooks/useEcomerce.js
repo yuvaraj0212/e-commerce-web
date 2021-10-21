@@ -7,7 +7,7 @@ import {
     setWishlistTtems,
     setCartItems,
 } from '~/store/ecomerce/action';
-import { getUser,addCart} from '~/components/api/url-helper';
+import { getUser,addCart,removeCart} from '~/components/api/url-helper';
 
 export default function useEcomerce() {
     const dispatch = useDispatch();
@@ -50,7 +50,6 @@ export default function useEcomerce() {
                 console.log("rep",responseData);
                 if (responseData && responseData.length > 0) {
                     if (group === 'cart') {
-                        console.log("cart");
                         let cartItems = responseData;
                         // payload.forEach((item) => {
                         //     let existItem = cartItems.find(
@@ -62,6 +61,7 @@ export default function useEcomerce() {
                         // });
 
                         setProducts(cartItems);
+                        
                     } else {
                         setProducts(responseData);
                     }
@@ -76,6 +76,7 @@ export default function useEcomerce() {
                 setLoading(false);
                 setProducts([]);
             }
+            console.log(products);
         },
 
         increaseQty: (payload, currentCart) => {
@@ -110,10 +111,12 @@ export default function useEcomerce() {
 
         addItem: (newItem, items, group) => {
             let newItems = [];
-            console.log(newItem);
+            console.log("addItem",newItem);
+            console.log("items",items);
             if (items) {
                 newItems = items;
-                const existItem = items.find((item) => item.id === newItem.id);
+                const existItem = items.find((item) => item.productId === newItem.productId);
+                console.log("existItem",existItem);
                 if (existItem) {
                     if (group === 'cart') {
                         existItem.quantity += newItem.quantity;
@@ -124,6 +127,7 @@ export default function useEcomerce() {
             } else {
                 newItems.push(newItem);
             }
+            console.log("add",newItems);
             if (group === 'cart') {
                 setCookie('cart', newItems, { path: '/' });
                 addCart(newItem)
@@ -144,6 +148,7 @@ export default function useEcomerce() {
         },
 
         removeItem: (selectedItem, items, group) => {
+            console.warn(selectedItem);
             let currentItems = items;
             if (currentItems.length > 0) {
                 const index = currentItems.findIndex(
@@ -152,7 +157,8 @@ export default function useEcomerce() {
                 currentItems.splice(index, 1);
             }
             if (group === 'cart') {
-                setCookie('cart', currentItems, { path: '/' });               
+                setCookie('cart', currentItems, { path: '/' });   
+                removeCart(selectedItem);
                 dispatch(setCartItems(currentItems));
             }
 

@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SiteFeatures from '~/components/partials/homepage/home-default/SiteFeatures';
 import HomeAdsColumns from '~/components/partials/homepage/home-default/HomeAdsColumns';
@@ -28,11 +28,13 @@ const HomepageDefaultPage = () => {
                 {/* <HomeDefaultDealOfDay collectionSlug="deal-of-the-day" /> */}
                 <HomeAdsColumns />
                 <HomeDefaultTopCategories />
-                {data.map(Product=>
-                   <HomeDefaultProductListing
-                   collectionSlug={Product.id}
-                   title={Product.name}
-               />
+                {data.map(Product =>
+                    < div key={Product.id} >
+                        <HomeDefaultProductListing
+                            collectionSlug={Product.id}
+                            title={Product.name}
+                        />
+                    </div>
                 )}
                 {/* <HomeDefaultProductListing
                     collectionSlug="consumer-electronics"
@@ -51,7 +53,7 @@ const HomepageDefaultPage = () => {
                 {/* <NewArrivals collectionSlug="new-arrivals-products" /> */}
                 <Newletters />
             </main>
-        </PageContainer>
+        </PageContainer >
     );
 };
 

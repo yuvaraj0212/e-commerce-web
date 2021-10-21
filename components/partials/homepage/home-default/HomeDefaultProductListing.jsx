@@ -37,11 +37,7 @@ const HomeDefaultProductListing = ({ collectionSlug, title }) => {
     useEffect(() => {
         let data={categoryId:collectionSlug};
         ProductRepository.getProductsByCategory(data)
-        // }, [collectionSlug]);
-       
-        // Axios.get('http://localhost:8899/product/category-filter',{params:data})
         .then((res) => {
-            console.log("product",res)
             setProductItems(res)
         })
     }, []);

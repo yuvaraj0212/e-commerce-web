@@ -9,7 +9,15 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
 
     function handleRemoveItem(e, productId) {
         e.preventDefault();
-        removeItem({ id: productId }, ecomerce.cartItems, 'cart');
+        e.preventDefault();
+        console.log("selectedItem", productId);
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+        const config = {
+            token: data,
+            data: { cartId: productId }
+        };
+        removeItem(config, ecomerce.cartItems, 'cart');
     }
 
     function handleIncreaseItemQty(e, productId) {
@@ -27,7 +35,7 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
     if (cartItems && cartItems.length > 0) {
         const items = cartItems.map((item) => (
             <tr key={item.id}>
-                <td>
+                <td key={item.id}>
                     <ProductCart product={item.productModel} />
                 </td>
                 <td data-label="price" className="price">

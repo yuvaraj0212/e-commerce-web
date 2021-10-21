@@ -18,3 +18,6 @@ export const Resetps = (data) => axios.post(`http://localhost:8899/reset-passwor
 export const getUserCart = (cartId) => { return axios.get("http://localhost:8899/cart/user-cart", cartId) }
 
 export const addCart = (data) =>  axios.post("http://localhost:8899/cart/add-cart", data); 
+
+export const removeCart = (data) => { 
+    return axios.delete("http://localhost:8899/cart/delete-cart",{ headers: {"Authorization" : `Bearer ${data.token}`}, params:data.data }  )} 
