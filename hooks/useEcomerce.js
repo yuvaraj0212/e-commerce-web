@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductRepository from '~/repositories/ProductRepository';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
@@ -7,28 +7,37 @@ import {
     setWishlistTtems,
     setCartItems,
 } from '~/store/ecomerce/action';
-import { getUser,addCart,removeCart} from '~/components/api/url-helper';
+import { getUserCart, getUser, addCart, removeCart, updatecart } from '~/components/api/url-helper';
 
 export default function useEcomerce() {
     const dispatch = useDispatch();
+    const [cart, setCart] = useState([]);
     const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(false);
     const [cartItemsOnCookie] = useState(null);
     const [cookies, setCookie] = useCookies(['cart']);
     const [products, setProducts] = useState(null);
     useEffect(() => {
+        getCart();
+    }, [])
+    const getCart = async () => {
         let data = JSON.parse(sessionStorage.getItem('token'))
         const config = {
             headers: {
                 Authorization: `Bearer ${data}`
             }
         };
+        // getUserCart(config).then(res => { setCart(res.data.result); });
+        const Products = await ProductRepository.getProductsByCartId();
+        setCart(Products)
+        console.warn("Products", Products);
         getUser(config).then(
             res => {
                 setUser(res.data.result);
             }
         )
-    }, [])
+
+    }
     return {
         loading,
         cartItemsOnCookie,
@@ -36,18 +45,18 @@ export default function useEcomerce() {
         getProducts: async (payload, group = '') => {
             setLoading(true);
             if (payload && payload.length > 0) {
-            //     let queries = '';
-            //     payload.forEach((item) => {
-            //         if (queries === '') {
-            //             queries = `id_in=${item.id}`;
-            //         } else {
-            //             queries = queries + `&id_in=${item.id}`;
-            //         }
-            //     });
+                //     let queries = '';
+                //     payload.forEach((item) => {
+                //         if (queries === '') {
+                //             queries = `id_in=${item.id}`;
+                //         } else {
+                //             queries = queries + `&id_in=${item.id}`;
+                //         }
+                //     });
                 const responseData = await ProductRepository.getProductsByCartId(
                     // queries
                 );
-                console.log("rep",responseData);
+                console.log("resp", responseData);
                 if (responseData && responseData.length > 0) {
                     if (group === 'cart') {
                         let cartItems = responseData;
@@ -61,7 +70,7 @@ export default function useEcomerce() {
                         // });
 
                         setProducts(cartItems);
-                        
+
                     } else {
                         setProducts(responseData);
                     }
@@ -109,28 +118,38 @@ export default function useEcomerce() {
             return cart;
         },
 
-        addItem: (newItem, items, group) => {
+        addItem: async(newItem, items, group) => {
+            getCart();
             let newItems = [];
-            console.log("addItem",newItem);
-            console.log("items",items);
-            if (items) {
-                newItems = items;
-                const existItem = items.find((item) => item.productId === newItem.productId);
-                console.log("existItem",existItem);
+            let existItems = [];
+            console.log(cart);
+            const Products = await ProductRepository.getProductsByCartId();
+            if (Products) {
+                // newItems = items;  
+                console.log("cart ", Products);
+                const existItem = Products.find((item) => item.productModel.id === newItem.productId);
+                console.log("existItem", existItem);
                 if (existItem) {
                     if (group === 'cart') {
-                        existItem.quantity += newItem.quantity;
+                        newItem.quantity += existItem.quantity;
+                        newItem.id = existItem.id;
+                        existItems.push(newItem);
                     }
                 } else {
+                    console.log("not existem");
                     newItems.push(newItem);
                 }
             } else {
+                console.log("no CArt");
                 newItems.push(newItem);
             }
-            console.log("add",newItems);
             if (group === 'cart') {
                 setCookie('cart', newItems, { path: '/' });
-                addCart(newItem)
+                if (existItems.length > 0) {
+                    console.log("existItem", "true");
+                    updatecart(existItems[0]);
+                } else { console.log("existItem", "false");  addCart(newItem); }
+
                 dispatch(setCartItems(newItems));
 
             }
@@ -157,7 +176,7 @@ export default function useEcomerce() {
                 currentItems.splice(index, 1);
             }
             if (group === 'cart') {
-                setCookie('cart', currentItems, { path: '/' });   
+                setCookie('cart', currentItems, { path: '/' });
                 removeCart(selectedItem);
                 dispatch(setCartItems(currentItems));
             }

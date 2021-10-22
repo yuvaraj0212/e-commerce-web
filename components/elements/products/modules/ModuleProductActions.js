@@ -5,7 +5,7 @@ import ProductDetailQuickView from '~/components/elements/detail/ProductDetailQu
 import useEcomerce from '~/hooks/useEcomerce';
 import { getUser } from '~/components/api/url-helper';
 import Router from 'next/router';
-
+import ProductRepository from '~/repositories/ProductRepository';
 const ModuleProductActions = ({ product, ecomerce }) => {
     const [isQuickView, setIsQuickView] = useState(false);
     const [user, setUser] = useState([]);
@@ -26,6 +26,7 @@ const ModuleProductActions = ({ product, ecomerce }) => {
     function handleAddItemToCart(e) {
         e.preventDefault();
         if (user) {
+            ProductRepository.getProductsByCartId();
             addItem({ productId: product.id, quantity: 1,userId:user }, ecomerce.cartItems, 'cart');
         } else {
            return Router.push('/account/login')

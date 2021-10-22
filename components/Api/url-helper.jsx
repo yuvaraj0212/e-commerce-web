@@ -21,3 +21,5 @@ export const addCart = (data) =>  axios.post("http://localhost:8899/cart/add-car
 
 export const removeCart = (data) => { 
     return axios.delete("http://localhost:8899/cart/delete-cart",{ headers: {"Authorization" : `Bearer ${data.token}`}, params:data.data }  )} 
+
+ export const updatecart = (data) => axios.post("http://localhost:8899/cart/update-cart", data);
