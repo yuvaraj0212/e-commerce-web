@@ -164,8 +164,6 @@ class ProductRepository {
         // const endPoint = `${baseUrl}/products?${payload}`;
         // const reponse = await Repository.get(endPoint)
         let data = JSON.parse(sessionStorage.getItem('token'))
-        console.log(data);
-
         const config = {
             headers: {
                 Authorization: `Bearer ${data}`
@@ -174,7 +172,6 @@ class ProductRepository {
         const reponse = getUserCart(config)
             .then((response) => {
                 if (response.data && response.data.result.length > 0) {
-                    console.log("ok",response.data);
                     return response.data.result;
                 } else {
                     return null;

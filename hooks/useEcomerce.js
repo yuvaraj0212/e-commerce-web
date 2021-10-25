@@ -30,7 +30,7 @@ export default function useEcomerce() {
         // getUserCart(config).then(res => { setCart(res.data.result); });
         const Products = await ProductRepository.getProductsByCartId();
         setCart(Products)
-        console.warn("Products", Products);
+        // console.warn("Products", Products);
         getUser(config).then(
             res => {
                 setUser(res.data.result);
@@ -88,37 +88,51 @@ export default function useEcomerce() {
             console.log(products);
         },
 
-        increaseQty: (payload, currentCart) => {
+        increaseQty: async (payload, currentCart) => {
             let cart = [];
-            if (currentCart) {
-                cart = currentCart;
-                const existItem = cart.find((item) => item.id === payload.id);
+            const Products = await ProductRepository.getProductsByCartId();
+            if (Products) {
+                // console.log("cart ", Products);
+                // console.log("payload ", payload);
+                const existItem = Products.find((item) => item.productModel.id === payload);
                 if (existItem) {
                     existItem.quantity = existItem.quantity + 1;
+                    const data = {
+                        id: existItem.id, userId: existItem.userModel.id, productId: existItem.productModel.id, quantity: existItem.quantity
+                    }
+                    console.log("increaseQty", existItem);
+                    updatecart(data);
+                    setCookie('cart', cart, { path: '/' });
+                    dispatch(setCartItems(cart));
                 }
-                setCookie('cart', cart, { path: '/' });
-                dispatch(setCartItems(cart));
             }
             return cart;
         },
 
-        decreaseQty: (payload, currentCart) => {
+        decreaseQty: async (payload, currentCart) => {
             let cart = [];
-            if (currentCart) {
-                cart = currentCart;
-                const existItem = cart.find((item) => item.id === payload.id);
+            const Products = await ProductRepository.getProductsByCartId();
+            if (Products) {
+                const existItem = Products.find((item) => item.productModel.id === payload);
                 if (existItem) {
                     if (existItem.quantity > 1) {
                         existItem.quantity = existItem.quantity - 1;
+                        const data = {
+                            id: existItem.id, userId: existItem.userModel.id, productId: existItem.productModel.id, quantity: existItem.quantity
+                        }
+                        updatecart(data);
+                        console.log("decreaseQty", existItem);
+                        setCookie('cart', cart, { path: '/' });
+                        dispatch(setCartItems(cart));
+                        getCart();
                     }
                 }
-                setCookie('cart', cart, { path: '/' });
-                dispatch(setCartItems(cart));
+
             }
             return cart;
         },
 
-        addItem: async(newItem, items, group) => {
+        addItem: async (newItem, items, group) => {
             getCart();
             let newItems = [];
             let existItems = [];
@@ -148,7 +162,7 @@ export default function useEcomerce() {
                 if (existItems.length > 0) {
                     console.log("existItem", "true");
                     updatecart(existItems[0]);
-                } else { console.log("existItem", "false");  addCart(newItem); }
+                } else { console.log("existItem", "false"); addCart(newItem); }
 
                 dispatch(setCartItems(newItems));
 

@@ -18,7 +18,7 @@ const ProductDetailCountdown = ({ product }) => {
                     <ModuleDetailTopInformation product={product} />
                     <ModuleProductDetailDescription product={product} />
                     <ModuleDetailCountdown />
-                    <ModuleDetailShoppingActions product={product} />
+                    {/* <ModuleDetailShoppingActions product={product} /> */}
                     <ModuleProductDetailSpecification />
                     <ModuleProductDetailSharing />
                     <ModuleDetailActionsMobile />

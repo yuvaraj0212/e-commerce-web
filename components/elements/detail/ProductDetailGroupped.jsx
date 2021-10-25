@@ -18,7 +18,7 @@ const ProductDetailGroupped = ({ product }) => (
                 <ModuleDetailTopInformation product={product} />
                 <ModuleProductDetailDescription product={product} />
                 <ModuleDetailProductGroup />
-                <ModuleDetailShoppingActions product={product} />
+                {/* <ModuleDetailShoppingActions product={product} /> */}
                 <ModuleProductDetailSpecification />
                 <ModuleProductDetailSharing />
                 <ModuleDetailActionsMobile />

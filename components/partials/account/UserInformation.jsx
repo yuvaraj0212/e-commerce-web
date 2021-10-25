@@ -30,11 +30,11 @@ const UserInformation = () => {
             icon: 'icon-user',
             active: true,
         },
-        {
-            text: 'Notifications',
-            url: '/account/notifications',
-            icon: 'icon-alarm-ringing',
-        },
+        // {
+        //     text: 'Notifications',
+        //     url: '/account/notifications',
+        //     icon: 'icon-alarm-ringing',
+        // },
         {
             text: 'Invoices',
             url: '/account/invoices',
@@ -45,16 +45,16 @@ const UserInformation = () => {
             url: '/account/addresses',
             icon: 'icon-map-marker',
         },
-        {
-            text: 'Recent Viewed Product',
-            url: '/account/recent-viewed-product',
-            icon: 'icon-store',
-        },
-        {
-            text: 'Wishlist',
-            url: '/account/wishlist',
-            icon: 'icon-heart',
-        },
+        // {
+        //     text: 'Recent Viewed Product',
+        //     url: '/account/recent-viewed-product',
+        //     icon: 'icon-store',
+        // },
+        // {
+        //     text: 'Wishlist',
+        //     url: '/account/wishlist',
+        //     icon: 'icon-heart',
+        // },
     ];
 
     //Views

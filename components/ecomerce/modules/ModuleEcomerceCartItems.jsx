@@ -19,17 +19,14 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
         };
         removeItem(config, ecomerce.cartItems, 'cart');
     }
-
     function handleIncreaseItemQty(e, productId) {
         e.preventDefault();
-        increaseQty({ id: productId }, ecomerce.cartItems);
+        increaseQty(  productId , ecomerce.cartItems);
     }
-
     function handleDecreaseItemQty(e, productId) {
         e.preventDefault();
-        decreaseQty({ id: productId }, ecomerce.cartItems);
+        decreaseQty(productId , ecomerce.cartItems);
     }
-
     // View
     let cartItemsViews;
     if (cartItems && cartItems.length > 0) {

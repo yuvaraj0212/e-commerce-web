@@ -77,7 +77,7 @@ const ModuleProductActions = ({ product, ecomerce }) => {
                     <i className="icon-bag2"></i>
                 </a>
             </li>
-            <li>
+            {/* <li>
                 <a
                     href="#"
                     data-toggle="tooltip"
@@ -86,7 +86,7 @@ const ModuleProductActions = ({ product, ecomerce }) => {
                     onClick={handleShowQuickView}>
                     <i className="icon-eye"></i>
                 </a>
-            </li>
+            </li> */}
             <li>
                 <a
                     href="#"
