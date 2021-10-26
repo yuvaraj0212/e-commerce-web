@@ -15,10 +15,10 @@ const ProductDetailSidebar = ({ product }) => (
             <div className="ps-product__info">
                 <ModuleDetailTopInformation product={product} />
                 <ModuleProductDetailDescription product={product} />
-                {/* <ModuleDetailShoppingActions
+                <ModuleDetailShoppingActions
                     product={product}
                     extended={true}
-                /> */}
+                />
                 <ModuleProductDetailSpecification />
                 <ModuleProductDetailSharing />
                 <ModuleDetailActionsMobile />
