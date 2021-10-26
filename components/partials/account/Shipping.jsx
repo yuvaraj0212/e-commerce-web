@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ModulePaymentOrderSummary from '~/components/partials/account/modules/ModulePaymentOrderSummary';
+import { getUser } from '~/components/api/url-helper';
 
 const Shipping = () => {
+    const [user, setUser] = useState([])
+    useEffect (() => {
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        };
+        getUser(config).then(
+            res => {
+                console.log(res);
+                setUser(res.data.result);
+            }
+        )
+
+    }, [])
     return (
         <div className="ps-checkout ps-section--shopping">
             <div className="container">
@@ -16,14 +35,14 @@ const Shipping = () => {
                                 <div className="ps-block__panel">
                                     <figure>
                                         <small>Contact</small>
-                                        <p>test@gmail.com</p>
+                                        <p>+91 {user.phone}</p>
                                         <Link href="/account/checkout">
                                             <a>Change</a>
                                         </Link>
                                     </figure>
                                     <figure>
                                         <small>Ship to</small>
-                                        <p>2015 South Street, Midland, Texas</p>
+                                        <p>{user?user.address:'2015 South Street, Midland, Texas'}</p>
                                         <Link href="/account/checkout">
                                             <a>Change</a>
                                         </Link>
@@ -32,8 +51,8 @@ const Shipping = () => {
                                 <h4>Shipping Method</h4>
                                 <div className="ps-block__panel">
                                     <figure>
-                                        <small>International Shipping</small>
-                                        <strong>$20.00</strong>
+                                        <small>Shipping char</small>
+                                        <strong>₹20.00</strong>
                                     </figure>
                                 </div>
                                 <div className="ps-block__footer">

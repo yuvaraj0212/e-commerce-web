@@ -1,13 +1,15 @@
 import Repository, { baseUrl, serializeQuery } from './Repository';
 import Axios from 'axios';
-import { getUserCart } from '~/components/api/url-helper';
+import { getUserCart,getProductList } from '~/components/api/url-helper';
 class ProductRepository {
     async getRecords(params) {
-        const reponse = await Repository.get(
-            `${baseUrl}/products?${serializeQuery(params)}`
-        )
+        const reponse = await getProductList()
+        //  Repository.get(
+        //     `${baseUrl}/products?${serializeQuery(params)}`
+        // )
             .then((response) => {
-                return response.data;
+                console.log(response.data.result);
+                return response.data.result;
             })
             .catch((error) => ({ error: JSON.stringify(error) }));
         return reponse;

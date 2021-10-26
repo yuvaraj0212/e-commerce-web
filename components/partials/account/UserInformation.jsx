@@ -3,8 +3,13 @@ import Link from 'next/link';
 import FormChangeUserInformation from '~/components/shared/FormChangeUserInformation';
 import { getUser } from '../../api/url-helper'
 import axios from "axios";
+import { logOut } from '~/store/auth/action';
+import router, { Router } from 'next/router';
+import { connect, useDispatch } from 'react-redux';
+
 const UserInformation = () => {
     const [user, setUser] = useState([]);
+    const dispatch = useDispatch();
     useEffect(() => {
 
         let data = JSON.parse(sessionStorage.getItem('token'))
@@ -21,7 +26,13 @@ const UserInformation = () => {
             }
         )
 
-    }, [])
+    }, []);
+    const handleLogout = (e) => {
+        e.preventDefault();
+        sessionStorage.clear();
+        dispatch(logOut());
+        router.push("/");
+    };
     console.log(user);
     const accountLinks = [
         {
@@ -81,7 +92,7 @@ const UserInformation = () => {
                                     <img src="/static/img/users/3.jpg" />
                                     <figure>
                                         <figcaption >Hello</figcaption>
-                                        <p>{user.username}</p>
+                                        <p>{user?user.username:''}</p>
                                     </figure>
                                 </div>
                                 <div className="ps-widget__content">
@@ -104,12 +115,11 @@ const UserInformation = () => {
                                             </li>
                                         ))}
                                         <li>
-                                            <Link href="/">
-                                                <a>
-                                                    <i className="icon-power-switch"></i>
-                                                    Logout
-                                                </a>
-                                            </Link>
+                                            {/* <Link href="/"> */}
+                                            <a onClick={(e) => handleLogout(e)}>
+                                                Logout
+                                            </a>
+                                            {/* </Link> */}
                                         </li>
                                     </ul>
                                 </div>

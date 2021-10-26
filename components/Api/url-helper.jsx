@@ -7,6 +7,8 @@ export const getToken = (data) => axios.post("http://localhost:8899/signin", dat
 
 export const getListuser = () => axios.get("http://localhost:8899/user-list");
 
+export const getProductList = () => axios.get("http://localhost:8899/product/product-list");
+
 export const getUser = (id) => axios.get("http://localhost:8899/current-user", id);
 
 export const getCatrgrylist = () => axios.get("http://localhost:8899/category/category-list");
