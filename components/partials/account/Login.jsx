@@ -132,11 +132,17 @@ class Login extends Component {
                                                 message:
                                                     'Please input your password!',
                                             },
+                                            {
+                                                pattern:/^.{6,}$/,
+                                                message: `password contains at least Six characters`
+                                            }
                                         ]}>
                                         <Input
                                             className="form-control"
                                             type="password"
                                             placeholder="Password..."
+                                            // '
+                                            // minLength={6}
                                         />
                                     </Form.Item>
                                 </div>

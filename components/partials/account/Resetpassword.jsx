@@ -61,7 +61,10 @@ const Resetpaassword = (props) => {
                                             required: true,
                                             message:
                                                 'Please input your password!',
-                                        },
+                                        },{
+                                            pattern:/^.{6,}$/,
+                                            message:`password contains at least Six characters`
+                                        }
                                     ]}>
                                     <Input
                                         className="form-control"
@@ -78,7 +81,10 @@ const Resetpaassword = (props) => {
                                             required: true,
                                             message:
                                                 'Please input your conformpassword!',
-                                        },
+                                        },{
+                                            pattern:/^.{6,}$/,
+                                            message:`password contains at least Six characters`
+                                        }
                                     ]}>
                                     <Input
                                         className="form-control"

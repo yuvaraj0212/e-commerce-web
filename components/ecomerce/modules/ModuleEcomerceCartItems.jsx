@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import useEcomerce from '~/hooks/useEcomerce';
 import { Result } from 'antd';
 import ProductCart from '~/components/elements/products/ProductCart';
-
+import { DeleteOutlined } from '@ant-design/icons'
 const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
     const { increaseQty, decreaseQty, removeItem } = useEcomerce();
 
@@ -61,9 +61,10 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
                 <td data-label="total">
                     <strong>₹{(item.productModel.price * item.quantity).toFixed(2)}</strong>
                 </td>
-                <td>
-                    <a href="#" onClick={(e) => handleRemoveItem(e, item.id)}>
-                        <i className="icon-cross"></i>
+                <td className='text-center h4'>
+                    <a  onClick={(e) => handleRemoveItem(e, item.id)}>
+                        {/* <i className="icon-cross"></i> */}
+                        <DeleteOutlined />
                     </a>
                 </td>
             </tr>

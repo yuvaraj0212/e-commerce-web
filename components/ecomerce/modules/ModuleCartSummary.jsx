@@ -12,8 +12,7 @@ const ModuleCartSummary = ({ source }) => {
                 <span className="ps-block__estimate">
                     <Link href="/product/[pid]" as={`/product/${item.productModel.id}`}>
                         <a className="ps-product__title">
-                            {item.productModel.name}
-                            <br /> x {item.quantity}
+                            {item.productModel.name} x {item.quantity}
                         </a>
                     </Link>
                 </span>

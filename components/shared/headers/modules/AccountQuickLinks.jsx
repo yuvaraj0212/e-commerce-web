@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { logOut } from '~/store/auth/action';
 import router, { Router } from 'next/router';
 
 const AccountQuickLinks = (props) => {
+    const [data, setData] = useState(false);
     const dispatch = useDispatch();
     const handleLogout = (e) => {
         e.preventDefault();
@@ -38,8 +39,18 @@ const AccountQuickLinks = (props) => {
         //     url: '/account/wishlist',
         // },
     ];
-    const { isLoggedIn } = props;
-
+    const  isLoggedIn = data;
+    useEffect(()=>{
+        const data = JSON.parse(sessionStorage.getItem('token'))
+        if (data) {
+            console.log("token  available ");
+            setData(true)
+        }else{
+            setData(false)
+            console.log("token not  available ");
+        }
+    })
+   
     // View
     const linksView = accountLinks.map((item) => (
         <li key={item.text}>
@@ -48,6 +59,10 @@ const AccountQuickLinks = (props) => {
             </Link>
         </li>
     ));
+    const nextpage=()=>{
+        router.push('/account/login')
+    }
+    console.log(data);
 
     if (isLoggedIn === true) {
         return (
@@ -72,9 +87,9 @@ const AccountQuickLinks = (props) => {
                     <i className="icon-user"></i>
                 </div>
                 <div className="ps-block__right">
-                    <Link href="/account/login">
-                        <a>Login</a>
-                    </Link>
+                    {/* <Link href="/account/login"> */}
+                        <a onClick={nextpage}>Login</a>
+                    {/* </Link> */}
                     <Link href="/account/register">
                         <a>Register</a>
                     </Link>
