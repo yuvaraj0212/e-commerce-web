@@ -23,7 +23,6 @@ const MiniCart = ({ ecomerce }) => {
         };
         removeItem(config, ecomerce.cartItems, 'cart');
         getproducts();
-        console.log("enterted"); console.log(products);
     }
     const getproducts = async () => {
         const Products = await ProductRepository.getProductsByCartId();

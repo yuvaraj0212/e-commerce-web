@@ -7,12 +7,6 @@ import router, { Router } from 'next/router';
 const AccountQuickLinks = (props) => {
     const [data, setData] = useState(false);
     const dispatch = useDispatch();
-    const handleLogout = (e) => {
-        e.preventDefault();
-        sessionStorage.clear();
-        dispatch(logOut());
-        router.push("/");
-    };
     const accountLinks = [
         {
             text: 'Account Information',
@@ -39,18 +33,24 @@ const AccountQuickLinks = (props) => {
         //     url: '/account/wishlist',
         // },
     ];
-    const  isLoggedIn = data;
-    useEffect(()=>{
+    const isLoggedIn = data;
+    const handleLogout = (e) => {
+        e.preventDefault();
+        sessionStorage.clear();
+        dispatch(logOut());
+        router.push("/");
+    };
+    useEffect(() => {
         const data = JSON.parse(sessionStorage.getItem('token'))
         if (data) {
             console.log("token  available ");
             setData(true)
-        }else{
+        } else {
             setData(false)
             console.log("token not  available ");
         }
     })
-   
+
     // View
     const linksView = accountLinks.map((item) => (
         <li key={item.text}>
@@ -59,7 +59,7 @@ const AccountQuickLinks = (props) => {
             </Link>
         </li>
     ));
-    const nextpage=()=>{
+    const nextpage = () => {
         router.push('/account/login')
     }
     console.log(data);
@@ -72,7 +72,7 @@ const AccountQuickLinks = (props) => {
                     <ul className="ps-list--arrow">
                         {linksView}
                         <li className="ps-block__footer">
-                            <a onClick={(e) => handleLogout(e)}>
+                            <a href='#' onClick={(e) => handleLogout(e)}>
                                 Logout
                             </a>
                         </li>
@@ -88,7 +88,7 @@ const AccountQuickLinks = (props) => {
                 </div>
                 <div className="ps-block__right">
                     {/* <Link href="/account/login"> */}
-                        <a onClick={nextpage}>Login</a>
+                    <a onClick={nextpage}>Login</a>
                     {/* </Link> */}
                     <Link href="/account/register">
                         <a>Register</a>

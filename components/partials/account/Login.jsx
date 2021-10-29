@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { login, logOut } from '../../../store/auth/action';
 import axios from 'axios';
-import { getToken, forgotpassword } from "components/api/url-helper";
+import { getToken, forgotpassword } from "~/components/api/url-helper";
 import { Form, Input, notification, Modal, Button } from 'antd';
 import { connect } from 'react-redux';
 

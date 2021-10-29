@@ -53,7 +53,7 @@ const ShoppingCartScreen = ({ ecomerce }) => {
                     <div className="ps-section__footer">
                         <div className="row justify-space-between">
                             <div className="col-xl-8 col-lg-4 col-md-12 col-sm-12 col-12 ">
-                                {/* <div className="row">
+                                <div className="row">
                                     <div className="col-lg-6">
                                         <figure>
                                             <figcaption>
@@ -73,7 +73,7 @@ const ShoppingCartScreen = ({ ecomerce }) => {
                                             </div>
                                         </figure>
                                     </div>
-                                </div>*/}
+                                </div>
                             </div>
                             <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                                 <ModuleCartSummary source={products} />

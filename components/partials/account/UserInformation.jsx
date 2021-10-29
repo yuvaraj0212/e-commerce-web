@@ -47,7 +47,7 @@ const UserInformation = () => {
         //     icon: 'icon-alarm-ringing',
         // },
         {
-            text: 'Invoices',
+            text: 'Order History',
             url: '/account/invoices',
             icon: 'icon-papers',
         },

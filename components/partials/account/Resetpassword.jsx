@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { connect } from 'react-redux'
 import Link from 'next/link';
 import { Form, Input, Button, notification } from 'antd';
-import { Resetps } from "components/api/url-helper";
+import { Resetps } from "~/components/api/url-helper";
 import axios from "axios";
 const Resetpaassword = (props) => {
     console.log(props.emailId);

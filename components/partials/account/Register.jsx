@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { login } from '../../../store/auth/action';
-import { registerUser } from "components/api/url-helper";
+import { registerUser } from "~/components/api/url-helper";
 import { Form, Input, Button, notification } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';

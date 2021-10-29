@@ -9,6 +9,7 @@ import ProductRepository from '~/repositories/ProductRepository';
 const ModuleProductActions = ({ product, ecomerce }) => {
     const [isQuickView, setIsQuickView] = useState(false);
     const [user, setUser] = useState([]);
+    const [token, setToken] = useState(false);
     const { addItem } = useEcomerce();
     useEffect(() => {
         let data = JSON.parse(sessionStorage.getItem('currentUser'))
@@ -19,14 +20,20 @@ const ModuleProductActions = ({ product, ecomerce }) => {
         // };
         // getUser(config).then(
         //     res => {
+            if (data) {
                 setUser(data);
+                setToken(true)
+            }else{
+                setUser(data);
+                setToken(false)
+            }
         //     }
         // )
     }, [])
     function handleAddItemToCart(e) {
         e.preventDefault();
-        if (user) {
-            ProductRepository.getProductsByCartId();
+        console.log(token);
+        if (token=== true) {
             addItem({ productId: product.id, quantity: 1,userId:user }, ecomerce.cartItems, 'cart');
         } else {
            return Router.push('/account/login')

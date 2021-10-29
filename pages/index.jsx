@@ -23,7 +23,7 @@ useEffect(() => {
     });
 }, []);
     return (
-        <PageContainer title="PANDIYAN">
+        <PageContainer title="web page">
             <main id="homepage-1">
                 <HomeDefaultBanner />
                 <SiteFeatures />
