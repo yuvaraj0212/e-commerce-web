@@ -4,6 +4,7 @@ import Router from 'next/router';
 import { Form, Input } from 'antd';
 import { getUser } from '~/components/api/url-helper';
 import { useForm } from 'antd/lib/form/Form';
+import router from 'next/router';
 
 const FormCheckoutInformation = () => {
     // class FormCheckoutInformation extends Component {
@@ -226,12 +227,12 @@ const FormCheckoutInformation = () => {
                 </div>
             </div> */}
             <div className="ps-form__submit">
-                <Link href="/account/cart">
-                    <a className="ps-btn">
+                {/* <Link href="/account/cart"> */}
+                    <a onClick={()=>router.push('/account/shopping-cart')} className="ps-btn">
                         <i className="icon-arrow-left mr-2"></i>
                         Return to shopping cart
                     </a>
-                </Link>
+                {/* </Link> */}
                 <div className="ps-block__footer">
                     <button className="ps-btn" type="submit">Continue to shipping</button>
                 </div>

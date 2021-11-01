@@ -4,6 +4,10 @@ import Link from 'next/link';
 import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import ProductCart from '~/components/elements/products/ProductCart';
 import AccountMenuSidebar from '../modules/AccountMenuSidebar';
+import Export from '~/components/shared/export/export';
+
+import ReactToPrint from 'react-to-print';
+
 // class TableInvoices extends Component {
 //     render() {
 const TableInvoices = () => {
@@ -13,6 +17,7 @@ const TableInvoices = () => {
     */
 
     const [isQuickView, setIsQuickView] = useState(false);
+    const [componentRef, setComponentRef] = useState(false);
     const tableData = [
         {
             id: '1',
@@ -172,8 +177,9 @@ const TableInvoices = () => {
             ],
         },
     ];
-    const handleShowQuickView = (e) => {
-        e.preventDefault();
+    const handleShowQuickView = (item) => {
+        // e.preventDefault();
+        console.log(item);
         setIsQuickView(true);
     };
     const handleHideQuickView = (e) => {
@@ -187,6 +193,19 @@ const TableInvoices = () => {
     //         rowKey={record => record.id}
     //     />
     // );
+    const pdfgen = (data) => {
+        return (<>
+            {/* <Model ref={(response) => (this.componentRef = response)} /> */}
+
+            <ReactToPrint
+                content={() => this.componentRef}
+                trigger={() => <button className="btn btn-primary">Print to PDF!</button>}
+            />
+        </>
+        )
+    }
+
+
     const tableItemsView = tableData.map((item) => {
         return (
             <tr key={item.id}>
@@ -195,7 +214,7 @@ const TableInvoices = () => {
                 <td>{item.dateCreate}</td>
                 <td>{item.amount}</td>
                 {/* <td>{item.status}</td> */}
-                <td className='text-center'onClick={handleShowQuickView} ><a ><EyeOutlined style={{ fontSize: '16px' }} />View</a></td>
+                <td className='text-center' onClick={(e, item) => handleShowQuickView(item)} ><a ><EyeOutlined style={{ fontSize: '16px' }} />View</a></td>
                 <Modal
                     centered
                     footer={null}
@@ -204,12 +223,13 @@ const TableInvoices = () => {
                     visible={isQuickView}
                     closeIcon={<i className="icon icon-cross2"></i>}>
                     <h3>Quickview</h3>
-                    <section className="ps-my-account ps-page--account">
+                    <section
+                        className="ps-my-account ps-page--account">
                         <div className="container">
                             <div className="row">
                                 <div className="col-lg-9">
                                     <div className="ps-page__content">
-                                        <div className="ps-section--account-setting">
+                                        {/* <div className="ps-section--account-setting">
                                             <div className="ps-section__header">
                                                 <h3>
                                                     #{item.amount}-
@@ -288,7 +308,7 @@ const TableInvoices = () => {
                                                                             />
                                                                         </td>
                                                                         <td className="price">
-                                                                        
+
                                                                             {
                                                                                 product.price
                                                                             }
@@ -296,7 +316,7 @@ const TableInvoices = () => {
 
                                                                         <td>1</td>
                                                                         <td className="price">
-                                                                        
+
                                                                             {
                                                                                 product.price
                                                                             }
@@ -307,21 +327,27 @@ const TableInvoices = () => {
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <div className='row '>
-                                                        <a className="ps-btn ps-btn" onClick={(e) => handleHideQuickView(e)}>
-                                                            Back to invoices
-                                                        </a>
-                                                        <a className="ps-btn ps-btn--gray ">
-                                                            <i className="icon icon-download2 mr-2"></i>Export
-                                                        </a>
-                                                </div>
                                             </div>
+                                        </div> */}
+                                        <Export ref={(response) => setComponentRef(response)} item={item} />
+                                        <div className='text-right'>
+                                            {/* <a className="ps-btn ps-btn text-left" onClick={(e) => handleHideQuickView(e)}>
+                                                            Back to invoices
+                                                        </a> */}
+
+                                            <ReactToPrint
+                                                content={() => componentRef}
+                                                trigger={() => <a className="ps-btn ps-btn mt-lg-3" >
+                                                    <i className="icon icon-download2 mx-2"></i>Export
+                                                </a>}
+                                            />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
+
                 </Modal>
             </tr>
         )

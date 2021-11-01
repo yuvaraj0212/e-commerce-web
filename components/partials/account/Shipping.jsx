@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ModulePaymentOrderSummary from '~/components/partials/account/modules/ModulePaymentOrderSummary';
 import { getUser } from '~/components/api/url-helper';
+import router from 'next/router';
 
 const Shipping = () => {
     const [user, setUser] = useState([])
@@ -56,17 +57,17 @@ const Shipping = () => {
                                     </figure>
                                 </div>
                                 <div className="ps-block__footer">
-                                    <Link href="/account/checkout">
-                                        <a>
-                                            <i className="icon-arrow-left mr-2"></i>
+                                    {/* <Link href="/account/checkout"> */}
+                                        <a onClick={router.push('/account/checkout')}>
+                                            <i className="icon-arrow-left mr-2 ps-btn"></i>
                                             Return to information
                                         </a>
-                                    </Link>
-                                    <Link href="/account/payment">
-                                        <a className="ps-btn">
+                                    {/* </Link> */}
+                                    {/* <Link href="/account/payment"> */}
+                                        <a onClick={router.push('/account/payment')} className="ps-btn">
                                             Continue to payment
                                         </a>
-                                    </Link>
+                                    {/* </Link> */}
                                 </div>
                             </div>
                         </div>

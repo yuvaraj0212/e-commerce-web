@@ -5,6 +5,7 @@ import ProductOnCart from '~/components/elements/products/ProductOnCart';
 import useEcomerce from '~/hooks/useEcomerce';
 import { calculateAmount } from '~/utilities/ecomerce-helpers';
 import ProductRepository from '~/repositories/ProductRepository';
+import router from 'next/router';
 
 const MiniCart = ({ ecomerce }) => {
     const {
@@ -55,12 +56,12 @@ const MiniCart = ({ ecomerce }) => {
                         <strong>₹{amount ? amount : 0}</strong>
                     </h3>
                     <figure>
-                        <Link href="/account/shopping-cart">
-                            <a className="ps-btn">View Cart</a>
-                        </Link>
-                        <Link href="/account/checkout">
-                            <a className="ps-btn">Checkout</a>
-                        </Link>
+                        {/* <Link href="/account/shopping-cart"> */}
+                            <a onClick={()=>router.push('/account/shopping-cart')} className="ps-btn">View Cart</a>
+                        {/* </Link> */}
+                        {/* <Link href="/account/checkout"> */}
+                            <a onClick={()=>router.push('/account/checkout')} className="ps-btn">Checkout</a>
+                        {/* </Link> */}
                     </figure>
                 </div>
             </div>

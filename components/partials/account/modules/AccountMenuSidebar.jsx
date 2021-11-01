@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { getUser } from '~/components/Api/url-helper';
+import { getUser } from '~/components/api/url-helper';
 import { logOut } from '~/store/auth/action';
 import router, { Router } from 'next/router';
 import { connect, useDispatch } from 'react-redux';

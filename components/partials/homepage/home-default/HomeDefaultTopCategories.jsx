@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import router from 'next/router';
 
 const HomeDefaultTopCategories = () =>{
     const [data, setData] = useState([]);
@@ -18,9 +19,9 @@ const HomeDefaultTopCategories = () =>{
                 {data.map((cat,index)=>
             <div key={index} className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category">
-                    <Link href={`/shop/[categoryId]`} as={`/shop/${cat.id}`}>
-                            <a className="ps-block__overlay"></a>
-                        </Link>
+                    {/* <Link href={`/shop/[categoryId]`} as={`/shop/${cat.id}`}> */}
+                            <a onClick={() =>router.push(`/shop/${cat.id}`)}className="ps-block__overlay"></a>
+                        {/* </Link> */}
                         <img  style={{height:"178px"}} src={cat.imageURL} alt={cat.desc} />
                         <p>{cat.name}</p>
                     </div>

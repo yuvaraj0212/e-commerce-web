@@ -17,7 +17,7 @@ const AccountQuickLinks = (props) => {
         //     url: '/account/notifications',
         // },
         {
-            text: 'Invoices',
+            text: 'Order History',
             url: '/account/invoices',
         },
         {
@@ -54,14 +54,11 @@ const AccountQuickLinks = (props) => {
     // View
     const linksView = accountLinks.map((item) => (
         <li key={item.text}>
-            <Link href={item.url}>
-                <a>{item.text}</a>
-            </Link>
+            {/* <Link href={item.url}> */}
+                <a onClick={() =>router.push(item.url)}>{item.text}</a>
+            {/* </Link> */}
         </li>
     ));
-    const nextpage = () => {
-        router.push('/account/login')
-    }
     console.log(data);
 
     if (isLoggedIn === true) {
@@ -88,11 +85,11 @@ const AccountQuickLinks = (props) => {
                 </div>
                 <div className="ps-block__right">
                     {/* <Link href="/account/login"> */}
-                    <a onClick={nextpage}>Login</a>
+                    <a onClick={() =>router.push('/account/login')}>Login</a>
                     {/* </Link> */}
-                    <Link href="/account/register">
-                        <a>Register</a>
-                    </Link>
+                    {/* <Link href="/account/register"> */}
+                        <a onClick={() =>router.push("/account/register")}>Register</a>
+                    {/* </Link> */}
                 </div>
             </div>
         );
