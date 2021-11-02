@@ -1,10 +1,12 @@
 import React, { Component, useEffect, useState } from 'react';
 import Link from 'next/link';
-import Router from 'next/router';
-import { Form, Input } from 'antd';
-import { getUser } from '~/components/api/url-helper';
+import { Form, Input, notification } from 'antd';
+import { getUser, order, getUserCart } from '~/components/api/url-helper';
 import { useForm } from 'antd/lib/form/Form';
 import router from 'next/router';
+import ProductRepository from '~/repositories/ProductRepository';
+import { calculateAmount } from '~/utilities/ecomerce-helpers';
+import Item from 'antd/lib/list/Item';
 
 const FormCheckoutInformation = () => {
     // class FormCheckoutInformation extends Component {
@@ -14,11 +16,16 @@ const FormCheckoutInformation = () => {
     //             user: []
     //         }
     //     }
-    const [user, setUser] = useState([])
-    useEffect(() => {
+    const [amount, setAmount] = useState();
+    const [user, setUser] = useState([]);
+    const [cart, setCart] = useState([]);
+    const [product, setProduct] = useState([]);
+    useEffect(async () => {
         let data = JSON.parse(sessionStorage.getItem('token'))
         console.log(data);
-
+        if (data === null || data === undefined) {
+            router.push('/account/login')
+        }
         const config = {
             headers: {
                 Authorization: `Bearer ${data}`
@@ -31,11 +38,38 @@ const FormCheckoutInformation = () => {
             }
         )
 
+        const Products = await ProductRepository.getProductsByCartId();
+        setCart(Products);
+        setAmount(calculateAmount(Products));
+
     }, [])
+
+
+    // var carts = [];
+    // carts = cart.map((item) => {
+    //     return { productId: `${item.productModel.id}`, quantity: `${item.quantity}`, amount: item.productModel.price };
+    //     // product.push(item.productModel)
+    // });
+    // const Order = { product: carts, amount: amount };
     const handleLoginSubmit = (value) => {
-        console.log(value);
-        Router.push('/account/shipping');
-    };
+    //     let data = JSON.parse(sessionStorage.getItem('token'))
+    //     Order.token = data;
+    //     order(Order).then((res) => {
+    //         if (res.data.status === 200) {
+    //             notification.success({
+    //                 message: res.data.message,
+    //                 description: 'You are login successful!',
+    //             });
+                return router.push('/account/shipping');
+
+    //         } else {
+    //             notification.warn({
+    //                 message: res.data.message,
+    //                 description: 'This feature has been updated later!',
+    //             })
+    //         }
+    //     })
+    }
     //  [form] = Form.useForm();
     // form.setFieldsValue({
     //     username: user.username,
@@ -46,6 +80,7 @@ const FormCheckoutInformation = () => {
     // });
 
     // render() {
+
     const [form] = Form.useForm();
     form.setFieldsValue({
         username: user.username,
@@ -126,7 +161,7 @@ const FormCheckoutInformation = () => {
                                     placeholder="Last Name"
                                 />
                             </Form.Item> */}
-                            <Form.Item
+                        <Form.Item
                             name="postalCode"
                             rules={[
                                 {
@@ -228,10 +263,10 @@ const FormCheckoutInformation = () => {
             </div> */}
             <div className="ps-form__submit">
                 {/* <Link href="/account/cart"> */}
-                    <a onClick={()=>router.push('/account/shopping-cart')} className="ps-btn">
-                        <i className="icon-arrow-left mr-2"></i>
-                        Return to shopping cart
-                    </a>
+                <a onClick={() => router.push('/account/shopping-cart')} className="ps-btn d-none d-md-block">
+                    <i className="icon-arrow-left mr-2 "></i>
+                    Return to shopping cart
+                </a>
                 {/* </Link> */}
                 <div className="ps-block__footer">
                     <button className="ps-btn" type="submit">Continue to shipping</button>
