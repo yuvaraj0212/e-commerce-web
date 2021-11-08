@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import useEcomerce from '~/hooks/useEcomerce';
 import { Result } from 'antd';
 import ProductCart from '~/components/elements/products/ProductCart';
 import { DeleteOutlined } from '@ant-design/icons'
-const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
+import ProductRepository from '~/repositories/ProductRepository';
+const ModuleEcomerceCartItems = ({ ecomerce,
+    //  cartItems 
+}) => {
     const { increaseQty, decreaseQty, removeItem } = useEcomerce();
-
+    const [cartItems, setProducts] = useState([]);
+    const getproducts = async () => {
+        const Products = await ProductRepository.getProductsByCartId();
+        setProducts(Products);
+    }
+    useEffect(() => {
+        getproducts();
+    }, [ecomerce]);
     function handleRemoveItem(e, productId) {
         e.preventDefault();
         e.preventDefault();
@@ -21,11 +31,11 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
     }
     function handleIncreaseItemQty(e, productId) {
         e.preventDefault();
-        increaseQty(  productId , ecomerce.cartItems);
+        increaseQty(productId, ecomerce.cartItems);
     }
     function handleDecreaseItemQty(e, productId) {
         e.preventDefault();
-        decreaseQty(productId , ecomerce.cartItems);
+        decreaseQty(productId, ecomerce.cartItems);
     }
     // View
     let cartItemsViews;
@@ -36,7 +46,7 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
                     <ProductCart product={item.productModel} />
                 </td>
                 <td data-label="price" className="price">
-                ₹{item.productModel.price}
+                    ₹{item.productModel.price}
                 </td>
                 <td data-label="quantity">
                     <div className="form-group--number">
@@ -61,9 +71,9 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
                 <td data-label="total">
                     <strong>₹{(item.productModel.price * item.quantity).toFixed(2)}</strong>
                 </td>
-                <td className='text-center h4'>
-                    <a  onClick={(e) => handleRemoveItem(e, item.id)}>
-                        {/* <i className="icon-cross"></i> */}
+                <td className='form-forgot text-center h4'>
+                    <a onClick={(e) => handleRemoveItem(e, item.id)}>
+
                         <DeleteOutlined />
                     </a>
                 </td>

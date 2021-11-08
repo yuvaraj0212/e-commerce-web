@@ -76,6 +76,7 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
                 _limit: pageSize,
             };
         }
+        
         getTotalRecords();
         getProducts(params);
         handleSetColumns();
@@ -148,7 +149,7 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
             <div className="ps-shopping__footer text-center">
                 <div className="ps-pagination">
                     <Pagination
-                        total={total - 1}
+                        total={total - 5}
                         pageSize={pageSize}
                         responsive={true}
                         showSizeChanger={false}

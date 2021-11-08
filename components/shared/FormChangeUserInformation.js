@@ -155,7 +155,7 @@ const FormChangeUserInformation = (props) => {
                              
                             </div>
                         </div> */}
-                        <div className="col-sm-12">
+                        {/* <div className="col-sm-12">
                             <div className="form-group"><Form.Item
                                 name="address"
 
@@ -174,7 +174,7 @@ const FormChangeUserInformation = (props) => {
                             </Form.Item>
 
                             </div>
-                        </div>
+                        </div> */}
                         {/* <div className="col-sm-6">
                             <div className="form-group"><Form.Item
                             name="City"

@@ -27,12 +27,13 @@ const ModuleDetailShoppingActions = ({
         console.log("Products", Products);
         if (Products) {
             const existItem = Products.find((item) => item.productModel.id === product.id);
-        console.log("existItem", existItem);
-        if (existItem > 0) {
-            console.log("inside");
-            setProducts(existItem);
+
             console.log("existItem", existItem);
-        }
+            if (existItem) {
+                console.log("inside");
+                setProducts(true);
+                console.log("existItem", existItem);
+            }
         }
     }
     function handleAddItemToCart(e) {
@@ -40,6 +41,7 @@ const ModuleDetailShoppingActions = ({
         console.log(user);
         if (user) {
             addItem({ productId: product.id, quantity: 1, userId: user }, ecomerce.cartItems, 'cart');
+            Router.push('/account/shopping-cart');
         } else {
             return Router.push('/account/login')
         }
@@ -92,9 +94,10 @@ const ModuleDetailShoppingActions = ({
         console.log(product.id);
         decreaseQty(product.id, ecomerce.cartItems);
     }
-    function handleIncreaseItem(e) {
+    function goCart(e) {
         e.preventDefault();
-        setQuantity(quantity + 1);
+        // setQuantity(quantity + 1);
+        Router.push('/account/shopping-cart');
     }
     function handleDecreaseItem(e) {
         e.preventDefault();
@@ -103,11 +106,12 @@ const ModuleDetailShoppingActions = ({
         }
 
     }
+    console.log(product);
     if (products > 0) {
         // let product=[];
         console.warn(products);
         return (
-            <div className="ps-product__shopping">
+            <div className="ps-product__shopping extend">
                 {/* <figure>
                     <figcaption>Quantity</figcaption>
                     <div className="form-group--number">
@@ -129,28 +133,35 @@ const ModuleDetailShoppingActions = ({
                         />
                     </div>
                 </figure> */}
+
+                {/* <a className="ps-btn" href="#" onClick={(e) => handleBuynow(e)}> 
+                    Buy Now
+                </a>*/}
+                <div className="ps-product__actions">
+                    {/* <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
+                        <i className="icon-heart"></i>
+                    </a> */}
+                    {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
+                        <i className="icon-chart-bars"></i>
+                    </a> */}
+                </div>
+                <a
+                    className="ps-btn ps-btn--black"
+                    href="#"
+                    onClick={(e) => goCart(e)}>
+                    Go to cart
+                </a>
+            </div>
+        );
+    } else {
+        return (
+            <div className="ps-product__shopping extend">
                 <a
                     className="ps-btn ps-btn--black"
                     href="#"
                     onClick={(e) => handleAddItemToCart(e)}>
                     Add to cart
                 </a>
-                <a className="ps-btn" href="#" onClick={(e) => handleBuynow(e)}>
-                    Buy Now
-                </a>
-                <div className="ps-product__actions">
-                    <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
-                        <i className="icon-heart"></i>
-                    </a>
-                    {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
-                        <i className="icon-chart-bars"></i>
-                    </a> */}
-                </div>
-            </div>
-        );
-    } else {
-        return (
-            <div className="ps-product__shopping extend">
                 <div className="ps-product__btn-group">
                     {/* <figure>
                         <figcaption>Quantity</figcaption>
@@ -173,24 +184,24 @@ const ModuleDetailShoppingActions = ({
                             />
                         </div>
                     </figure> */}
-                    <a
+                    {/* <a
                         className="ps-btn ps-btn--black"
                         href="#"
                         onClick={(e) => handleAddItemToCart(e)}>
                         Add to cart
-                    </a>
+                    </a> */}
                     <div className="ps-product__actions">
-                        <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
+                        {/* <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
                             <i className="icon-heart"></i>
-                        </a>
+                        </a> */}
                         {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
                             <i className="icon-chart-bars"></i>
                         </a> */}
                     </div>
                 </div>
-                <a className="ps-btn" href="#" onClick={(e) => handleBuynow(e)}>
+                {/* <a className="ps-btn" href="#" onClick={(e) => handleBuynow(e)}>
                     Buy Now
-                </a>
+                </a> */}
             </div>
         );
     }

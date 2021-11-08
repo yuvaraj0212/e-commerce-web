@@ -17,7 +17,7 @@ class Export extends React.Component {
         const invoiceProducts = [
             {
                 id: '6',
-                thumbnail: '/static/img/products/shop/5.jpg',
+                imageURL: 'https://m.media-amazon.com/images/I/61oTu3SQPLL._UY625_.jpg',
                 title: 'Grand Slam Indoor Of Show Jumping Novel',
                 vendor: "Robert's Store",
                 sale: true,
@@ -34,7 +34,7 @@ class Export extends React.Component {
             },
             {
                 id: '7',
-                thumbnail: '/static/img/products/shop/6.jpg',
+                imageURL: 'https://rukminim1.flixcart.com/image/714/857/jjd6aa80/earring/a/c/d/afghani-earing-031-crazytowear-original-imaf6xstsxrquxag.jpeg?q=50',
                 title: 'Sound Intone I65 Earphone White Version',
                 vendor: 'Youngshop',
                 sale: true,

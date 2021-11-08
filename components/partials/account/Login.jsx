@@ -147,10 +147,9 @@ class Login extends Component {
                                     </Form.Item>
                                 </div>
                                 <div className="form-group text-right hover-blue">
-
-                                    <label  >
+                                    <p   className='form-forgot pb-3'>
                                         <a onClick={() => this.Visible(true)}>Forgot Your Password?</a>
-                                    </label>
+                                    </p>
 
                                 </div>
                                 <Modal

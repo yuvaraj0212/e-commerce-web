@@ -28,7 +28,11 @@ export const removeCart = (data) => {
 export const updatecart = (data) => axios.post("http://localhost:8899/cart/update-cart", data);
 
 export const order = (data) => {
-    console.log(data);
-    const options = { method: 'POST',headers: {    Authorization: `Bearer ${data.token}`},data: data,url: "http://localhost:8899/order"};
+    const options = { method: 'POST', headers: { Authorization: `Bearer ${data.token}` }, data: data, url: "http://localhost:8899/order" };
     return axios(options);
 }
+export const AddAddress = (data) => {
+    const options = { method: 'POST', headers: { Authorization: `Bearer ${data.token}` }, data: data.data, url: "http://localhost:8899/add-address" };
+    return axios(options);
+}
+export const getUserAddress = (id) => axios.get("http://localhost:8899/user-address", id);

@@ -5,7 +5,6 @@ import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import ProductCart from '~/components/elements/products/ProductCart';
 import AccountMenuSidebar from '../modules/AccountMenuSidebar';
 import Export from '~/components/shared/export/export';
-
 import ReactToPrint from 'react-to-print';
 
 // class TableInvoices extends Component {
@@ -15,7 +14,7 @@ const TableInvoices = () => {
         You can change data by API
         example: https://ant.design/components/table/
     */
-
+    const [invoice, setInvoice] = useState([]);
     const [isQuickView, setIsQuickView] = useState(false);
     const [componentRef, setComponentRef] = useState(false);
     const tableData = [
@@ -180,6 +179,7 @@ const TableInvoices = () => {
     const handleShowQuickView = (item) => {
         // e.preventDefault();
         console.log(item);
+        setInvoice(item);
         setIsQuickView(true);
     };
     const handleHideQuickView = (e) => {
@@ -214,7 +214,7 @@ const TableInvoices = () => {
                 <td>{item.dateCreate}</td>
                 <td>{item.amount}</td>
                 {/* <td>{item.status}</td> */}
-                <td className='text-center' onClick={(e, item) => handleShowQuickView(item)} ><a ><EyeOutlined style={{ fontSize: '16px' }} />View</a></td>
+                <td className='text-center' onClick={(e) => handleShowQuickView(item)} ><a ><EyeOutlined style={{ fontSize: '16px' }} />View</a></td>
                 <Modal
                     centered
                     footer={null}
@@ -329,7 +329,7 @@ const TableInvoices = () => {
                                                 </div>
                                             </div>
                                         </div> */}
-                                        <Export ref={(response) => setComponentRef(response)} item={item} />
+                                        <Export ref={(response) => setComponentRef(response)} item={invoice} />
                                         <div className='text-right'>
                                             {/* <a className="ps-btn ps-btn text-left" onClick={(e) => handleHideQuickView(e)}>
                                                             Back to invoices

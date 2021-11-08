@@ -1,12 +1,13 @@
 import React, { Component, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Form, Input, notification } from 'antd';
+import { Form, Input, notification, Radio } from 'antd';
 import { getUser, order, getUserCart } from '~/components/api/url-helper';
 import { useForm } from 'antd/lib/form/Form';
 import router from 'next/router';
 import ProductRepository from '~/repositories/ProductRepository';
 import { calculateAmount } from '~/utilities/ecomerce-helpers';
 import Item from 'antd/lib/list/Item';
+import { getUserAddress } from '~/components/api/url-helper';
 
 const FormCheckoutInformation = () => {
     // class FormCheckoutInformation extends Component {
@@ -31,7 +32,7 @@ const FormCheckoutInformation = () => {
                 Authorization: `Bearer ${data}`
             }
         };
-        getUser(config).then(
+        getUserAddress(config).then(
             res => {
                 console.log(res);
                 setUser(res.data.result);
@@ -52,80 +53,41 @@ const FormCheckoutInformation = () => {
     // });
     // const Order = { product: carts, amount: amount };
     const handleLoginSubmit = (value) => {
-    //     let data = JSON.parse(sessionStorage.getItem('token'))
-    //     Order.token = data;
-    //     order(Order).then((res) => {
-    //         if (res.data.status === 200) {
-    //             notification.success({
-    //                 message: res.data.message,
-    //                 description: 'You are login successful!',
-    //             });
-                return router.push('/account/shipping');
+        console.log(value);
+        sessionStorage.setItem("adresss",JSON.stringify(value))
+        return router.push({ pathname: '/account/shipping' });
 
-    //         } else {
-    //             notification.warn({
-    //                 message: res.data.message,
-    //                 description: 'This feature has been updated later!',
-    //             })
-    //         }
-    //     })
+
     }
-    //  [form] = Form.useForm();
-    // form.setFieldsValue({
-    //     username: user.username,
-    //     email: props.data.email,
-    //     phone: props.data.phone,
-    //     address: props.data.address,
+    // const [value, setValue] = useState([]);
 
-    // });
+    function handleChangeMethod(method) {
+
+        form.setFieldsValue({
+            username: method.userModel.username,
+            email: method.userModel.email,
+            phone: method.userModel.phone,
+            street: method.street,
+            city: method.city,
+            district: method.district,
+            pincode: method.pincode,
+            state: method.state
+        });
+        // setValue(method); //e.target.value
+    }
 
     // render() {
-
+    // console.log(method);
     const [form] = Form.useForm();
-    form.setFieldsValue({
-        username: user.username,
-        email: user.email,
-        phone: user.phone,
-        address: user.address,
 
-    });
+
     return (
+
         <Form
             className="ps-form__billing-info"
             onFinish={handleLoginSubmit}
             form={form}>
             <h3 className="ps-form__heading">Contact information</h3>
-            <div className="form-group">
-                <Form.Item
-                    name="phone"
-                    initialValue={() => user.phone}
-                    rules={[
-                        {
-                            required: true,
-                            message:
-                                'Enter mobile phone number!',
-                        },
-                    ]}>
-                    <Input
-                        className="form-control"
-                        type="tel"
-                        placeholder="Email or phone number"
-                    />
-                </Form.Item>
-            </div>
-            {/* <div className="form-group">
-                <div className="ps-checkbox">
-                    <input
-                        className="form-control"
-                        type="checkbox"
-                        id="keep-update"
-                    />
-                    <label htmlFor="keep-update">
-                        Keep me up to date on news and exclusive offers?
-                    </label>
-                </div>
-            </div> */}
-            <h3 className="ps-form__heading">Shipping address</h3>
             <div className="row">
                 <div className="col-sm-6">
                     <div className="form-group">
@@ -147,120 +109,156 @@ const FormCheckoutInformation = () => {
                 </div>
                 <div className="col-sm-6">
                     <div className="form-group">
-                        {/* <Form.Item
-                                name="lastName"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Enter your last name!',
-                                    },
-                                ]}>
-                                <Input
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Last Name"
-                                />
-                            </Form.Item> */}
                         <Form.Item
-                            name="postalCode"
+                            name="phone"
+                            initialValue={() => user.phone}
                             rules={[
                                 {
-                                    required: false,
-                                    message: 'Enter a postal Code!',
+                                    required: true,
+                                    message:
+                                        'Enter mobile phone number!',
                                 },
                             ]}>
                             <Input
                                 className="form-control"
-                                type="postalCode"
-                                placeholder="Postal Code"
+                                type="tel"
+                                placeholder="Email or phone number"
                             />
                         </Form.Item>
                     </div>
                 </div>
             </div>
-            <div className="form-group">
-                <Form.Item
-                    name="address"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Enter an address!',
-                        },
-                    ]}>
-                    <Input
-                        className="form-control"
-                        type="text"
-                        defaultValue={user.address}
-                        placeholder="Address"
-                    />
-                </Form.Item>
-            </div>
-            {/* <div className="form-group">
-                <Form.Item
-                    name="apartment"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Enter an Apartment!',
-                        },
-                    ]}>
-                    <Input
-                        className="form-control"
-                        type="text"
-                        placeholder="Apartment, suite, etc. (optional)"
-                    />
-                </Form.Item>
-            </div> */}
-            {/* <div className="row">
-                <div className="col-sm-6">
-                    <div className="form-group">
-                        <Form.Item
-                            name="city"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Enter a city!',
-                                },
-                            ]}>
-                            <Input
-                                className="form-control"
-                                type="city"
-                                placeholder="City"
-                            />
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className="col-sm-6">
-                    <div className="form-group">
-                        <Form.Item
-                            name="postalCode"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Enter a postal oce!',
-                                },
-                            ]}>
-                            <Input
-                                className="form-control"
-                                type="postalCode"
-                                placeholder="Postal Code"
-                            />
-                        </Form.Item>
-                    </div>
-                </div>
-            </div> */}
             {/* <div className="form-group">
                 <div className="ps-checkbox">
                     <input
                         className="form-control"
                         type="checkbox"
-                        id="save-information"
+                        id="keep-update"
                     />
-                    <label htmlFor="save-information">
-                        Save this information for next time
+                    <label htmlFor="keep-update">
+                        Keep me up to date on news and exclusive offers?
                     </label>
                 </div>
             </div> */}
+            <h3 className="ps-form__heading">Shipping address</h3>
+            <Radio.Group
+                onChange={(e) => handleChangeMethod(e.target.value)}
+            >
+                {/* <Radio value={1}>Visa / Master Card</Radio>
+                <Radio value={2}>Paypal</Radio> */}
+                {user.map((item, index) => {
+                    var count = index + 1;
+                    return <Radio value={item}>Adress {count}</Radio>;
+                })}
+            </Radio.Group>
+
+            <div className="form-group">
+                <Form.Item
+                    name="street"
+                    // label='Street Address'
+                    rules={[
+                        {
+                            required: true,
+                            message:
+                                'Please input your Street Address!',
+                        },
+                    ]}>
+                    <Input
+                        className="form-control"
+                        type="text"
+                        placeholder="Street Address"
+
+                    />
+                </Form.Item>
+            </div>
+            <div className="row">
+                <div className="col-sm-6">
+                    <div className="form-group">
+                        <Form.Item
+                            name="city"
+                            // label='City'
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        'Please input your city!',
+                                },
+                            ]}>
+                            <Input
+                                className="form-control"
+                                type="text"
+                                placeholder="City"
+
+                            />
+                        </Form.Item>
+                    </div>
+                </div>
+                <div className="col-sm-6">
+                    <div className="form-group">
+                        <Form.Item
+                            name="district"
+                            // label='Street Address'
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        'Please input your district!',
+                                },
+                            ]}>
+                            <Input
+                                className="form-control"
+                                type="text"
+                                placeholder="district"
+
+                            />
+                        </Form.Item>
+                    </div>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-sm-6">
+                    <div className="form-group">
+                        <Form.Item
+                            name="state"
+                            // label='Street Address'
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        'Please input your state!',
+                                },
+                            ]}>
+                            <Input
+                                className="form-control"
+                                type="text"
+                                placeholder="state"
+
+                            />
+                        </Form.Item>
+                    </div>
+                </div>
+                <div className="col-sm-6">
+                    <div className="form-group">
+                        <Form.Item
+                            name="pincode"
+                            // label='Street Address'
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        'Please input your pincode!',
+                                },
+                            ]}>
+                            <Input
+                                className="form-control"
+                                type="text"
+                                placeholder="pincode"
+
+                            />
+                        </Form.Item>
+                    </div>
+                </div>
+            </div>
             <div className="ps-form__submit">
                 {/* <Link href="/account/cart"> */}
                 <a onClick={() => router.push('/account/shopping-cart')} className="ps-btn d-none d-md-block">

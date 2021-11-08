@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ModulePaymentOrderSummary from '~/components/partials/account/modules/ModulePaymentOrderSummary';
 import { getUser } from '~/components/api/url-helper';
-import router from 'next/router';
+import router,{useRouter} from 'next/router';
 import ProductRepository from '~/repositories/ProductRepository';
 import { calculateAmount } from '~/utilities/ecomerce-helpers';
 import { order } from '~/components/api/url-helper';
@@ -13,24 +13,18 @@ const Shipping = () => {
     const [user, setUser] = useState([]);
     const [cart, setCart] = useState([]);
     const [product, setProduct] = useState([]);
+    const rout = new useRouter();
+    // const data =rout.query;
+    // console.log(data);
+    
     useEffect(async () => {
         let data = JSON.parse(sessionStorage.getItem('token'))
         console.log(data);
         if (data === null || data === undefined) {
             router.push('/account/login')
         }
-        const config = {
-            headers: {
-                Authorization: `Bearer ${data}`
-            }
-        };
-        getUser(config).then(
-            res => {
-                console.log(res);
-                setUser(res.data.result);
-            }
-        )
-
+        let add = JSON.parse(sessionStorage.getItem('adresss'))
+        setUser(add);
         const Products = await ProductRepository.getProductsByCartId();
         setCart(Products);
         setAmount(calculateAmount(Products));
@@ -81,7 +75,7 @@ const Shipping = () => {
                                     </figure>
                                     <figure>
                                         <small>Ship to</small>
-                                        <p>{user?user.address:'2015 South Street, Midland, Texas'}</p>
+                                        <p>{user.street+','+user.city+','+user.district+','+user.state+','+user.pincode}</p>
                                         <Link href="/account/checkout">
                                             <a>Change</a>
                                         </Link>
