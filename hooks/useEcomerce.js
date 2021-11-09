@@ -181,7 +181,6 @@ export default function useEcomerce() {
         },
 
         removeItem: (selectedItem, items, group) => {
-            console.warn(selectedItem);
             let currentItems = items;
             if (currentItems.length > 0) {
                 const index = currentItems.findIndex(

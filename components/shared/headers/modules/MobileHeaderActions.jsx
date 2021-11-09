@@ -7,7 +7,7 @@ import AccountQuickLinksMobile from './AccountQuickLinksMobile';
 
 
 const MobileHeaderActions = ({ auth, ecomerce }) => {
-    
+    const [data, setData] = useState(false);
     const [products, setProducts] = useState([]);
     const { cartItems } = ecomerce;
     const getproducts = async () => {
@@ -16,6 +16,14 @@ const MobileHeaderActions = ({ auth, ecomerce }) => {
     }
     useEffect(() => {
         getproducts();
+        const data = JSON.parse(sessionStorage.getItem('token'))
+        if (data) {
+            console.log("token  available ");
+            setData(true)
+        } else {
+            setData(false)
+            console.log("token not  available ");
+        }
     }, [ecomerce]);
     return (
         <div className="navigation__right">
@@ -28,9 +36,10 @@ const MobileHeaderActions = ({ auth, ecomerce }) => {
                 </a>
             </Link>
 
-            {auth.isLoggedIn && Boolean(auth.isLoggedIn) === true ? (
+            {/* {auth.isLoggedIn && Boolean(auth.isLoggedIn) === true ? ( */}
+                {data === true ? (
                 <AccountQuickLinksMobile />
-            ) : (
+            ) : ( 
                 <div className="header__extra">
                     <Link href="/account/login">
                         <i className="icon-user"></i>

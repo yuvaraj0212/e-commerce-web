@@ -16,7 +16,10 @@ class Addresses extends Component {
 
         let data = JSON.parse(sessionStorage.getItem('token'))
         console.log(data);
-
+        if (data===null || data===undefined) {
+            console.log("null");
+            return router.push('/account/login')
+        }
         const config = {
             headers: {
                 Authorization: `Bearer ${data}`

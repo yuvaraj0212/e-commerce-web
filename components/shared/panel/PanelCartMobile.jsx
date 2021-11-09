@@ -11,9 +11,16 @@ const PanelCartMobile = ({ ecomerce }) => {
     const {ImageUrl, title, thumbnailImage } = useProduct();
     const [products, setProducts] = useState([]);
     
-    function handleRemoveCartItem(e, product) {
+    function    handleRemoveCartItem(e, product) {
         e.preventDefault();
-        removeItem(product, ecomerce.cartItems, 'cart');
+        console.log("selectedItem", product);
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+        const config = {
+            token: data,
+            data: { cartId: product }
+        };
+        removeItem(config, ecomerce.cartItems, 'cart');
     }
     const getproducts = async () => {
         const Products = await ProductRepository.getProductsByCartId();
@@ -42,7 +49,7 @@ const PanelCartMobile = ({ ecomerce }) => {
                 <div className="ps-product__content">
                     <a
                         className="ps-product__remove"
-                        onClick={(e) => handleRemoveCartItem(e, item.productModel.id)}>
+                        onClick={(e) => handleRemoveCartItem(e, item.id)}>
                         <i className="icon-cross"></i>
                     </a>
                     {title(item)}

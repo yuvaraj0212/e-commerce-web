@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Table, Divider, Tag, Modal } from 'antd';
 import Link from 'next/link';
 import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
@@ -6,6 +6,7 @@ import ProductCart from '~/components/elements/products/ProductCart';
 import AccountMenuSidebar from '../modules/AccountMenuSidebar';
 import Export from '~/components/shared/export/export';
 import ReactToPrint from 'react-to-print';
+import router from 'next/router';
 
 // class TableInvoices extends Component {
 //     render() {
@@ -51,6 +52,13 @@ const TableInvoices = () => {
             status: 'Cancel',
         },
     ];
+    useEffect(()=>{
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        if (data===null || data===undefined) {
+            console.log("null");
+            return router.push('/account/login')
+        }
+    })
     const tableColumn = [
         {
             title: 'Id',

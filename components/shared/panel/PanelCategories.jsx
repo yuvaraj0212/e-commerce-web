@@ -9,13 +9,13 @@ const { SubMenu } = Menu;
 class PanelCategories extends Component {
     constructor(props) {
         super(props);
-        this.state={
-            categories:[] 
+        this.state = {
+            categories: []
         }
     }
-    componentDidMount=()=>{
+    componentDidMount = () => {
         axios.get("http://localhost:8899/category/category-list").then((res) => {
-            this.setState({categories:res.data.result});
+            this.setState({ categories: res.data.result });
         });
     }
 
@@ -45,9 +45,12 @@ class PanelCategories extends Component {
                 onOpenChange={this.onOpenChange}>
                 {this.state.categories.map(category => (
                     <Menu.Item key={category.id}>
-                        <a href={`/shop?category=${category.slug}`}>
-                            {category.name}
-                        </a>
+                        <Link href={`/shop/${category.id}`}>
+                            <a >
+                                {category.name}
+                            </a>
+                        </Link>
+
                     </Menu.Item>
                 ))}
             </Menu>
