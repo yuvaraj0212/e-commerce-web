@@ -71,10 +71,17 @@ class ProductRepository {
         return reponse;
     }
 
-    async getProductsById(payload) {
-        const reponse = await Repository.get(`${baseUrl}/products/${payload}`)
+    async getProductsBypagination(payload) {
+        // const reponse = await Repository.get(`${baseUrl}/products/${payload}`)
+        //     .then((response) => {
+        //         return response.data;
+        //     })
+        //     .catch((error) => ({ error: JSON.stringify(error) }));
+        // return reponse;
+        
+        const reponse = Axios.get(`http://localhost:8899/product/pagination/?pageNo=${payload}&pageSize=${12}`)
             .then((response) => {
-                return response.data;
+                return response.data.result;
             })
             .catch((error) => ({ error: JSON.stringify(error) }));
         return reponse;
