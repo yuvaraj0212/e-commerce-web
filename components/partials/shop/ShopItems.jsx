@@ -16,18 +16,18 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
     const { query } = Router;
     const [listView, setListView] = useState(true);
     const [total, setTotal] = useState([]);
+    const [count, setCount] = useState(0);
     const [pageNo, setPageNo] = useState(0);
     const [productItems, setProductItems] = useState();
     const [classes, setClasses] = useState(
         'col-xl-4 col-lg-4 col-md-3 col-sm-6 col-6'
     );
     const { loading, getProducts } = useGetProducts();
-
     function handleChangeViewMode(e) {
         e.preventDefault();
         setListView(!listView);
     }
-    const handleNextPage = async(e)=>{
+    const handleNextPage = async (e) => {
         e.preventDefault();
         let Num = pageNo + 1;
         const responseData = await ProductRepository.getProductsBypagination(Num);
@@ -36,7 +36,7 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
             setProductItems(responseData.content);
         }
     }
-    const handlePagination = async (page)=> {
+    const handlePagination = async (page) => {
         // Router.push(`/shop?page=${page}`);
         const responseData = await ProductRepository.getProductsBypagination(page);
         if (responseData) {
@@ -51,8 +51,10 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
             console.log(responseData);
             const value = responseData.totalPages;
             setPageNo(responseData.number);
-            for (let index = 0; index < value; index++) {
-                total.push(index);
+            if (count === 0) {
+                for (let index = 0; index < value; index++) {
+                    total.push(index);
+                }
             }
             setProductItems(responseData.content);
         }
@@ -95,7 +97,8 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
                 _limit: pageSize,
             };
         }
-
+        let counts = count + 1;
+        setCount(counts)
         getTotalRecords();
         getProducts(params);
         handleSetColumns();
@@ -137,7 +140,7 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
         <div className="ps-shopping">
             <div className="ps-shopping__header">
                 <p>
-                    <strong className="mr-2">{total}</strong>
+                    {/* <strong className="mr-2">{total}</strong> */}
                     Products found
                 </p>
                 <div className="ps-shopping__actions">
@@ -179,14 +182,14 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
                             {
                                 total.map((items) => {
                                     let item = items + 1;
-                                    return <li key={item} className={pageNo === items ? 'active':''}>
-                                        <a href="#" onClick={()=>handlePagination(items)}>{item}</a>
+                                    return <li key={item} className={pageNo === items ? 'active' : ''}>
+                                        <a href="#" onClick={() => handlePagination(items)}>{item}</a>
                                     </li>
                                 }
                                 )
                             }
                             <li>
-                                <a href="#" onClick={(e)=>handleNextPage(e)}>
+                                <a href="#" onClick={(e) => handleNextPage(e)}>
                                     Next Page
                                     <i className="icon-chevron-right" ></i>
                                 </a>

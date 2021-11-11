@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Modal } from 'antd';
 import useProduct from '~/hooks/useProduct';
 import useEcomerce from '~/hooks/useEcomerce';
+import  Router  from 'next/router';
 
 const ModuleProductWideActions = ({ ecomerce, product }) => {
     const { price } = useProduct();
