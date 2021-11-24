@@ -1,9 +1,10 @@
 import Repository, { baseUrl, serializeQuery } from './Repository';
-import Axios from 'axios';
 import { getUserCart,getProductList } from '~/components/api/url-helper';
+import { getCatrgyDetails,pagination ,getCatrgryfilter} from '~/components/api/url-helper';
+
 class ProductRepository {
-    async getRecords(params) {
-        const reponse = await getProductList()
+     getRecords(params) {
+        const reponse =  getProductList()
         //  Repository.get(
         //     `${baseUrl}/products?${serializeQuery(params)}`
         // )
@@ -33,8 +34,8 @@ class ProductRepository {
             });
         return reponse;
     }
-    async getCategory(id) {
-        const reponse = Axios.get('http://localhost:8899/category/category-details', { params: id })
+     getCategory(id) {
+        const reponse = getCatrgyDetails(id)
             .then((response) => {
                 let Name = response.data.result
                 return Name.name;
@@ -61,9 +62,9 @@ class ProductRepository {
         return reponse;
     }
 
-    async getTotalRecords() {
+     getTotalRecords() {
         // const reponse = await Repository.get(`${baseUrl}/products/count`)
-        const reponse = Axios.get('http://localhost:8899/product/product-list')
+        const reponse =getProductList()
             .then((response) => {
                 return response.data.result;
             })
@@ -71,7 +72,7 @@ class ProductRepository {
         return reponse;
     }
 
-    async getProductsBypagination(payload) {
+     getProductsBypagination(payload) {
         // const reponse = await Repository.get(`${baseUrl}/products/${payload}`)
         //     .then((response) => {
         //         return response.data;
@@ -79,7 +80,7 @@ class ProductRepository {
         //     .catch((error) => ({ error: JSON.stringify(error) }));
         // return reponse;
         
-        const reponse = Axios.get(`http://localhost:8899/product/pagination/?pageNo=${payload}&pageSize=${12}`)
+        const reponse =pagination(payload)
             .then((response) => {
                 return response.data.result;
             })
@@ -87,8 +88,8 @@ class ProductRepository {
         return reponse;
     }
 
-    async getProductsByCategory(data) {
-        const reponse = Axios.get('http://localhost:8899/product/category-filter', { params: data })
+     getProductsByCategory(data) {
+        const reponse =getCatrgryfilter(data)
             // await Repository.get(
             //     `${baseUrl}/product-categories?slug=${payload}`
             // )
@@ -169,7 +170,7 @@ class ProductRepository {
         return reponse;
     }
 
-    async getProductsByCartId(payload) {
+     getProductsByCartId(payload) {
         // const endPoint = `${baseUrl}/products?${payload}`;
         // const reponse = await Repository.get(endPoint)
         let data = JSON.parse(sessionStorage.getItem('token'))

@@ -2,7 +2,6 @@ import React, { Component, useEffect, useState } from 'react';
 import Link from 'next/link';
 import FormChangeUserInformation from '~/components/shared/FormChangeUserInformation';
 import { getUser } from '../../api/url-helper'
-import axios from "axios";
 import { logOut } from '~/store/auth/action';
 import router, { Router } from 'next/router';
 import { connect, useDispatch } from 'react-redux';

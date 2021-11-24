@@ -5,18 +5,14 @@ import { login } from '../../../store/auth/action';
 import { registerUser } from "~/components/api/url-helper";
 import { Form, Input, Button, notification } from 'antd';
 import { connect } from 'react-redux';
-import axios from 'axios';
+
 
 class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
-    // componentDidMount() {
-    //     axios.get("http://localhost:8080/user").then(res =>
-    //         console.log(res.data)
-    //     )
-    // };
+   
 
     handleSubmit(values) {
 

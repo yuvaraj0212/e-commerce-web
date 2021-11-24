@@ -1,13 +1,11 @@
-
 import React, { useEffect, useState } from 'react';
 import { getCatrgrylist } from '../../api/url-helper';
-import axios from 'axios';
 import Link from 'next/link';
 
 const MenuCategoriesDropdown = () => {
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8899/category/category-list").then((res) => {
+        getCatrgrylist().then((res) => {
             setData(res.data.result);
         });
     }, []);

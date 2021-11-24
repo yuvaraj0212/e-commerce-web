@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { calculateAmount } from '~/utilities/ecomerce-helpers';
+import ProductRepository from '~/repositories/ProductRepository';
 
 const ModuleCartSummary = ({ source }) => {
+    const [product, setProducts] = useState([]);
+    const getproducts = async () => {
+        const Products = await ProductRepository.getProductsByCartId();
+        setProducts(Products);
+    }
+    useEffect(() => {
+        getproducts();
+    }, [source]);
     // View
     let productItemsView, amount;
-    if (source && source.length > 0) {
-        amount = calculateAmount(source);
-        productItemsView = source.map((item) => (
+    if (product && product.length > 0) {
+        amount = calculateAmount(product);
+        productItemsView = product.map((item) => (
             <li key={item.productModel.id}>
                 <span className="ps-block__estimate">
                     <Link href="/product/[pid]" as={`/product/${item.productModel.id}`}>

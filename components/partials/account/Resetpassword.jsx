@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Link from 'next/link';
 import { Form, Input, Button, notification } from 'antd';
 import { Resetps } from "~/components/api/url-helper";
-import axios from "axios";
+
 const Resetpaassword = (props) => {
     console.log(props.emailId);
     const handleLoginSubmit = (values) => {
@@ -12,7 +12,7 @@ const Resetpaassword = (props) => {
         let data = { emailId: props.emailId, password: values.password, confirmPassword: values.confirmPassword };
         console.log(props.emailId);
         Resetps(data)
-            // axios.post(`http://localhost:8899/reset-password/${data.emailId}`, data )
+            
             .then(
                 (res) => {
                     if (res.status == 200) {

@@ -12,7 +12,7 @@ import ShopBanner from '~/components/partials/shop/ShopBanner';
 import PageContainer from '~/components/layouts/PageContainer';
 import Newletters from '~/components/partials/commons/Newletters';
 import { useRouter } from 'next/router';
-import Axios from 'axios';
+
 
 import useGetProducts from '~/hooks/useGetProducts';
 const categoriesProduct = ({ columns = 4, pageSize = 12 }) => {

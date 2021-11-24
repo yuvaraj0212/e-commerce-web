@@ -4,7 +4,6 @@ import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 import { generateTempArray } from '~/utilities/common-helpers';
 import { ProductGroupWithCarousel } from '~/components/partials/product/ProductGroupWithCarousel';
 import useGetProducts from '~/hooks/useGetProducts';
-import Axios from 'axios';
 import ProductRepository from '~/repositories/ProductRepository'
 const HomeDefaultProductListing = ({ collectionSlug, title }) => {
     const [currentCollection, setCurrentCollection] = useState('new-arrivals');

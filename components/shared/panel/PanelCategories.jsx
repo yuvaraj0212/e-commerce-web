@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Menu } from 'antd';
 import Link from 'next/link';
-import axios from 'axios';
+import { getCatrgrylist } from '~/components/api/url-helper';
 // import categories from '../../../public/static/data/static-categories.json';
 
 const { SubMenu } = Menu;
@@ -14,7 +14,7 @@ class PanelCategories extends Component {
         }
     }
     componentDidMount = () => {
-        axios.get("http://localhost:8899/category/category-list").then((res) => {
+        getCatrgrylist().then((res) => {
             this.setState({ categories: res.data.result });
         });
     }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Component } from 'react';
-import axios from 'axios';
 import SiteFeatures from '~/components/partials/homepage/home-default/SiteFeatures';
 import HomeAdsColumns from '~/components/partials/homepage/home-default/HomeAdsColumns';
 import HomeAds from '~/components/partials/homepage/home-default/HomeAds';
@@ -14,11 +13,12 @@ import PageContainer from '~/components/layouts/PageContainer';
 import Product from '~/components/elements/products/Product';
 import { connect } from 'react-redux';
 import { login, logOut } from '~/store/auth/action';
+import { getCatrgrylist } from '~/components/api/url-helper';
 
 const HomepageDefaultPage = () => {
     const [data, setData] = useState([]);
 useEffect(() => {
-    axios.get("http://localhost:8899/category/category-list").then((res) => {
+    getCatrgrylist().then((res) => {
         setData(res.data.result);
     });
 }, []);
@@ -30,14 +30,14 @@ useEffect(() => {
                 {/* <HomeDefaultDealOfDay collectionSlug="deal-of-the-day" /> */}
                 <HomeAdsColumns />
                 <HomeDefaultTopCategories />
-                {data.map(Product =>
-                    < div key={Product.id} >
+                {data?data.map(Product =>{console.log(Product);
+                  return  < div key={Product.id} >
                         <HomeDefaultProductListing
                             collectionSlug={Product.id}
                             title={Product.name}
                         />
-                    </div>
-                )}
+                    </div>}
+                ):''}
                 {/* <HomeDefaultProductListing
                     collectionSlug="consumer-electronics"
                     title="Consumer Electronics"
