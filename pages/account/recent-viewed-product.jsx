@@ -23,7 +23,7 @@ const RecentViewedProductsPage = () => {
                 title="Recent Viewed Products">
                 <div className="ps-page--my-account">
                     <BreadCrumb breacrumb={breadCrumb} />
-                    <RecentViewedProducts />
+                    {/* <RecentViewedProducts /> */}
                 </div>
                 <Newletters layout="container" />
             </PageContainer>

@@ -28,7 +28,7 @@ class MyAccount extends Component {
                                         <img src="/static/img/users/3.jpg" />
                                         <figure>
                                             <figcaption>Hello</figcaption>
-                                            <p>{user?user.username:''}</p>
+                                            {/* <p>{user?user.username:''}</p> */}
                                         </figure>
                                     </div>
                                     <div className="ps-widget__content">
