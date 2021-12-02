@@ -144,7 +144,7 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
                     Products found
                 </p>
                 <div className="ps-shopping__actions">
-                    <ModuleShopSortBy />
+                    {/* <ModuleShopSortBy /> */}
                     <div className="ps-shopping__view">
                         <p>View</p>
                         <ul className="ps-tab-list">

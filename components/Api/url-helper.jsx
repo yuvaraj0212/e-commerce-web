@@ -1,6 +1,6 @@
 
 import axios from "axios";
-const baseUrls = 'http://13.127.52.182/pandiyanstores';
+const baseUrls = 'http://13.235.132.111/pandiyanstores';
 // const baseUrls =  "http://localhost:8899"
 
 export const registerUser = (data) => axios.post(`${baseUrls}/signup`, data);
@@ -9,7 +9,7 @@ export const getToken = (data) => axios.post(`${baseUrls}/signin`, data);
 
 export const getListuser = () => axios.get(`${baseUrls}/user-list`);
 
-export const pagination = (payload) =>axios.get(`${baseUrls}/product/pagination/?pageNo=${payload}&pageSize=${12}`)
+export const pagination = (payload) =>axios.get(`${baseUrls}/product/pagination/?pageNo=${payload}&pageSize=${16}`)
 
 export const upDateUser = (values) =>axios.post(`${baseUrls}/update-user`, values);
 
